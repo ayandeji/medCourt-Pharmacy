@@ -261,20 +261,28 @@
     font-weight: 900;
     letter-spacing: 0.16em;
     margin-bottom: 22px;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .hero h1 {
     font-family: "Outfit", Arial, sans-serif;
-    font-size: 3.8rem;
-    line-height: 0.95;
+    font-size: clamp(1rem, 5.8vw, 2.8rem);
+    line-height: 1.15;
     letter-spacing: 0;
     color: var(--ink);
     margin-bottom: 22px;
   }
 
-  .hero h1 span {
-    color: var(--pink);
+  .h1-line {
     display: block;
+    white-space: nowrap;
+  }
+
+  .h1-accent {
+    color: var(--pink);
   }
 
   .hero-copy {
@@ -1303,7 +1311,7 @@
     .brand-text span { font-size: 13px; }
     .nav-link { display: none; }
     .nav-actions .btn { padding: 0 12px; font-size: 13px; }
-    .hero h1 { font-size: 2.6rem; }
+    .hero h1 { font-size: clamp(1rem, 5.8vw, 2.8rem); }
     .section-title { font-size: 2.1rem; }
     .panel-title { font-size: 3.75rem; }
     .location-inner h2 { font-size: 2rem; }
@@ -1366,13 +1374,13 @@
   <div class="topbar-track" id="topbarTrack">
     <span class="topbar-item">🎉 Grand Opening · May 8 &amp; 9, 2026</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">117 Ogudu Road, Ogudu, Lagos</span>
+    <span class="topbar-item">117 Ogudu Road, Ogudu, Lagos (Alpha mall)</span>
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item">Opening in: <span id="tb-days">--</span>d <span id="tb-hours">--</span>h <span id="tb-mins">--</span>m <span id="tb-secs">--</span>s</span>
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item"><a href="#reserve">Lock in your spot →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Free health checks · Gifts at the door · Exclusive discounts</span>
+    <span class="topbar-item">Free health checks · Gifts at the store · Exclusive discounts</span>
     <span class="topbar-item topbar-sep">✶</span>
     <!-- duplicate for seamless loop -->
     <span class="topbar-item">🎉 Grand Opening · May 8 &amp; 9, 2026</span>
@@ -1383,7 +1391,7 @@
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item"><a href="#reserve">Lock in your spot →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Free health checks · Gifts at the door · Exclusive discounts</span>
+    <span class="topbar-item">Free health checks · Gifts at the store · Exclusive discounts</span>
     <span class="topbar-item topbar-sep">✶</span>
   </div>
 </div>
@@ -1407,14 +1415,14 @@
       <div class="hero-grid">
         <div class="hero-content">
           <div class="opening-tag">🎉 2-Day Grand Opening · May 8 &amp; 9, 2026</div>
-          <h1>Your Wellbeing, Our Passion. <span>New Branch. Opening May 8.</span></h1>
-          <p class="hero-copy">We're opening our brand-new Ogudu Road location and you're invited. Two days of free health checks, special gifts at the door, exclusive discounts, and expert care — open to everyone.</p>
+          <h1><span class="h1-line">Your Wellbeing...</span><span class="h1-line">Our Passion.</span><span class="h1-line h1-accent">A bigger experience.</span><span class="h1-line h1-accent">Opening May 8.</span></h1>
+          <p class="hero-copy">We're opening our 2nd branch in Ogudu road and you're invited. Two days of free health checks, special gifts at the store, exclusive discounts, and expert care — open to everyone.</p>
           <div class="hero-meta">
             <div class="meta-item">
               <div class="meta-item-icon">📍</div>
               <div>
                 <strong>Location</strong>
-                <span>117 Ogudu Road, Ogudu, Lagos.</span>
+                <span>117 Ogudu Road, Ogudu, Lagos (Alpha mall).</span>
               </div>
             </div>
             <div class="meta-item">
@@ -1439,7 +1447,7 @@
             </div>
             <div class="celebrate-panel-body">
               <div class="celebrate-quote">Come Celebrate With Us</div>
-              <p class="celebrate-text">For years, we’ve stood beside our community as a partner in health. Now, we’re opening the doors to a bigger, brighter space — built for you.</p>
+              <p class="celebrate-text">For years, we’ve stood beside our community as a partner in health. Now, we’re opening the doors to a bigger, brighter space built for you.</p>
               <p class="celebrate-text accent">From friendly advice at the counter to comprehensive HMO support, our pharmacists deliver care that goes beyond the prescription.</p>
               <p class="celebrate-text highlight">Reliable. Accessible. Welcoming. Step into the new branch and experience pharmacy the way it should be.</p>
               <div class="celebrate-pills-dark">
@@ -1458,12 +1466,12 @@
   <section class="expect">
     <div class="container">
       <div class="section-kicker">What to Expect</div>
-      <h2 class="section-title">Two days packed with <span>care, gifts &amp; savings</span></h2>
+      <h2 class="section-title">Two days packed with <span>care, gifts &amp; hospitality</span></h2>
       <div class="expect-grid">
         <div class="expect-card featured">
           <div class="expect-icon">🎁</div>
           <h3>Special Gift</h3>
-          <p>A welcome gift for every first-time visitor. Come early — it's waiting at the door.</p>
+          <p>A welcome gift for every first-time visitor. Come early — it's waiting at the store.</p>
         </div>
         <div class="expect-card">
           <div class="expect-icon">❤️</div>
@@ -1473,7 +1481,7 @@
         <div class="expect-card">
           <div class="expect-icon">🏷️</div>
           <h3>Exclusive Discounts</h3>
-          <p>Big savings on essential medicines and supplements — opening weekend only.</p>
+          <p>Big savings on essential medicines and supplements — opening days only.</p>
         </div>
         <div class="expect-card">
           <div class="expect-icon">🛡️</div>
@@ -1537,12 +1545,12 @@
     <div class="container">
       <div class="section-kicker">Find Us</div>
       <h2 class="section-title">Join us at <span>Ogudu Road</span></h2>
-      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos · May 8 &amp; 9, 2026 · 9 AM – 6 PM. Free checks, gifts at the door, and the same trusted care you know. Walk in — no appointment needed.</p>
+      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos (Alpha mall) · May 8 &amp; 9, 2026 · 9 AM – 6 PM. Free checks, gifts at the sstore, and the same trusted care you know. Walk in — no appointment needed.</p>
       <div class="find-us-grid" style="margin-top:34px;">
         <div class="find-us-map">
           <div class="map-pin">📍</div>
           <h3>Visit the New Branch</h3>
-          <p>117 Ogudu Road, Ogudu, Lagos</p>
+          <p>117 Ogudu Road, Ogudu, Lagos (Alpha mall)</p>
           <a href="https://maps.google.com/?q=117+Ogudu+Road+Ogudu+Lagos" target="_blank" rel="noopener">Get Directions →</a>
         </div>
         <div class="find-us-info">
@@ -1550,7 +1558,7 @@
             <div class="info-tile-icon">📍</div>
             <div>
               <strong>New Location</strong>
-              <span>117 Ogudu Road, Ogudu, Lagos</span>
+              <span>117 Ogudu Road, Ogudu, Lagos (Alpha mall)</span>
             </div>
           </div>
           <div class="info-tile">
@@ -1584,7 +1592,7 @@
       <div class="reserve-intro">
         <div class="section-kicker">Reserve &amp; Receive Your Gift</div>
         <h2 class="section-title">Lock in your spot <span>in 30 seconds</span></h2>
-        <p class="section-copy">3 quick fields. Special gift waiting at the door.</p>
+        <p class="section-copy">3 quick fields. Special gift waiting at the store.</p>
       </div>
       <form class="form-panel" id="reserveForm" novalidate>
         <div class="form-grid">
@@ -1620,8 +1628,7 @@
         <p class="success-message" id="reserveSuccess">Thank you. Your details have been submitted successfully.</p>
         <button type="submit" class="btn btn-submit" id="reserveSubmitBtn">Submit &amp; Confirm</button>
         <p class="form-note" style="text-align:center;margin-top:12px;">🔒 Your information is safe and only used to reserve your slot.</p>
-      </form>
-
+      </form>      
     </div>
   </section>
 
@@ -1633,7 +1640,7 @@
       <div class="branch-grid">
         <div class="branch" style="border-top:4px solid var(--pink);">
           <h3>Ogudu Road ✨ New</h3>
-          <p style="color:var(--muted);font-size:13px;font-weight:600;margin-bottom:8px;">117 Ogudu Road, Ogudu, Lagos</p>
+          <p style="color:var(--muted);font-size:13px;font-weight:600;margin-bottom:8px;">117 Ogudu Road, Ogudu, Lagos (Alpha mall)</p>
           <a href="tel:+2348165005208">0816 500 5208</a>
         </div>
         <div class="branch">
@@ -1647,8 +1654,8 @@
           <a href="tel:+2348186249960">08186249960</a>
         </div>
         <div class="branch">
-          <h3>Agege</h3>
-          <p style="color:var(--muted);font-size:13px;font-weight:600;margin-bottom:8px;">95 Old Ipaja Road, Shotunde Bus Stop, Agege, Lagos</p>
+          <h3>Ikotun</h3>
+          <p style="color:var(--muted);font-size:13px;font-weight:600;margin-bottom:8px;">109, Governor's road, Ikotun, Lagos</p>
           <a href="tel:+2349165886103">09165886103</a>
         </div>
       </div>
@@ -1661,10 +1668,14 @@
     <a href="#" class="brand" aria-label="Medcourt Pharmacy">
       <img src="logo.jpeg" alt="Medcourt Pharmacy" style="height:52px;width:auto;border-radius:8px;background:#fff;padding:4px 10px;">
     </a>
-    <p>117 Ogudu Road, Ogudu, Lagos<br>Your well being, our passion</p>
+    <p>117 Ogudu Road, Ogudu, Lagos (Alpha mall)<br>Your well being....our passion</p>
     <div class="socials">
-      <a href="https://www.instagram.com/medcourtpharmacy" target="_blank" rel="noopener">@medcourtpharmacy</a>
-      <a href="https://www.facebook.com/medcourt_pharmaceutical_ltd" target="_blank" rel="noopener">medcourt_pharmaceutical_ltd</a>
+      <a href="https://www.instagram.com/medcourtpharmacy" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@medcourt_pharmaceutical_ltd
+      </a>
+      <a href="https://www.tiktok.com/@medcourt_pharmacy" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px;"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>@medcourt_pharmacy
+      </a>
     </div>
   </div>
 </footer>
