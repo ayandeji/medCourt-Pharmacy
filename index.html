@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medcourt Pharmacy - Ogudu 2 Opening Ceremony</title>
+<title>Medcourt Pharmacy | Quality Care · Lagos</title>
 <link href="assets/fonts/fonts.css" rel="stylesheet">
 <style>
   :root {
@@ -1179,92 +1179,6 @@
   .socials { display: grid; gap: 6px; text-align: right; }
   .socials a { color: var(--white); text-decoration: none; font-weight: 800; }
 
-  .popup-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 80;
-    background: rgba(16,32,48,0.68);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .popup-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .popup-box {
-    width: min(460px, 100%);
-    background: var(--white);
-    border-radius: 8px;
-    padding: 30px;
-    position: relative;
-    border-top: 8px solid var(--pink);
-    box-shadow: 0 26px 70px rgba(0,0,0,0.28);
-  }
-
-  .popup-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--cyan-soft);
-    color: var(--ink);
-    cursor: pointer;
-    font-size: 22px;
-    line-height: 1;
-  }
-
-  .popup-box h2 {
-    font-family: "Outfit", Arial, sans-serif;
-    font-size: 1.8rem;
-    line-height: 1.08;
-    padding-right: 34px;
-    margin-bottom: 12px;
-  }
-
-  .popup-box p {
-    color: var(--muted);
-    line-height: 1.65;
-    font-size: 14px;
-    margin-bottom: 18px;
-  }
-
-  .popup-badge {
-    display: inline-flex;
-    min-height: 30px;
-    align-items: center;
-    background: var(--cyan);
-    color: var(--white);
-    border-radius: 8px;
-    padding: 0 12px;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-
-  .success-state {
-    display: none;
-    text-align: center;
-    padding: 12px 0 4px;
-  }
-
-  .success-state h3 {
-    font-family: "Outfit", Arial, sans-serif;
-    font-size: 1.65rem;
-    margin-bottom: 10px;
-  }
-
   .success-message {
     display: none;
     border: 1px solid rgba(0,169,232,0.24);
@@ -1326,9 +1240,8 @@
     .form-grid {
       grid-template-columns: 1fr;
     }
-    section { padding: 58px 0; }
     .form-panel,
-    .popup-box { padding: 24px; }
+    section { padding: 58px 0; }
     .footer-inner {
       align-items: flex-start;
       flex-direction: column;
@@ -1338,60 +1251,29 @@
 </style>
 </head>
 <body>
-<div class="popup-overlay" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup-box">
-    <button class="popup-close" id="popupClose" aria-label="Close">&times;</button>
-    <div id="popupContent">
-      <div class="popup-badge">Opening Ceremony · May 8 &amp; 9, 2026</div>
-      <h2 id="popupTitle">Reserve your free health check</h2>
-      <p>Be among the first through the doors. Claim your welcome gift — free health checks, gifts &amp; discounts on May 8 &amp; 9.</p>
-      <form id="popupForm" novalidate>
-        <div class="form-group">
-          <label for="popup-name">Full Name *</label>
-          <input type="text" id="popup-name" placeholder="Your full name" required autocomplete="name">
-        </div>
-        <div class="form-group">
-          <label for="popup-email">Email *</label>
-          <input type="email" id="popup-email" placeholder="you@email.com" required autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label for="popup-phone">Phone Number *</label>
-          <input type="tel" id="popup-phone" placeholder="0800 000 0000" required autocomplete="tel">
-        </div>
-        <p class="error-text" id="popupError">Please enter your name, email, and phone number.</p>
-        <button type="submit" class="btn btn-primary" id="popupSubmitBtn" style="width:100%;">Submit Details</button>
-      </form>
-    </div>
-    <div class="success-state" id="popupSuccess">
-      <h3>Details submitted</h3>
-      <p>Thank you. Your details have been saved and the Medcourt team will follow up with your opening ceremony information.</p>
-      <button type="button" class="btn btn-secondary" id="popupSuccessClose" style="width:100%;">Close</button>
-    </div>
-  </div>
-</div>
 
 <div class="topbar" aria-hidden="true">
   <div class="topbar-track" id="topbarTrack">
-    <span class="topbar-item">🎉 Grand Opening · May 8 &amp; 9, 2026</span>
+    <span class="topbar-item">💊 Quality Medicines &amp; Supplements</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">117 Ogudu Road, Ogudu, Lagos (Alpha mall)</span>
+    <span class="topbar-item">📍 4 Branches Across Lagos</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Opening in: <span id="tb-days">--</span>d <span id="tb-hours">--</span>h <span id="tb-mins">--</span>m <span id="tb-secs">--</span>s</span>
+    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 8 PM</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item"><a href="#reserve">Lock in your spot →</a></span>
+    <span class="topbar-item"><a href="https://wa.me/2348165005208">Chat on WhatsApp →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Free health checks · Gifts at the store · Exclusive discounts</span>
+    <span class="topbar-item">🛡️ Licensed &amp; Trusted · HMO Accepted</span>
     <span class="topbar-item topbar-sep">✶</span>
     <!-- duplicate for seamless loop -->
-    <span class="topbar-item">🎉 Grand Opening · May 8 &amp; 9, 2026</span>
+    <span class="topbar-item">💊 Quality Medicines &amp; Supplements</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">117 Ogudu Road, Ogudu, Lagos</span>
+    <span class="topbar-item">📍 4 Branches Across Lagos</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Opening in: <span class="tb-days2">--</span>d <span class="tb-hours2">--</span>h <span class="tb-mins2">--</span>m <span class="tb-secs2">--</span>s</span>
+    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 8 PM</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item"><a href="#reserve">Lock in your spot →</a></span>
+    <span class="topbar-item"><a href="https://wa.me/2348165005208">Chat on WhatsApp →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">Free health checks · Gifts at the store · Exclusive discounts</span>
+    <span class="topbar-item">🛡️ Licensed &amp; Trusted · HMO Accepted</span>
     <span class="topbar-item topbar-sep">✶</span>
   </div>
 </div>
@@ -1404,7 +1286,8 @@
     <div class="nav-actions">
       <a class="nav-link" href="#services">Services</a>
       <a class="nav-link" href="#branches">Branches</a>
-      <a class="btn btn-primary" href="#reserve">Claim Gift</a>
+      <a class="nav-link" href="#contact">Contact</a>
+      <a class="btn btn-primary" href="#contact">Get in Touch</a>
     </div>
   </div>
 </header>
@@ -1414,9 +1297,9 @@
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <div class="opening-tag">🎉 2-Day Grand Opening · May 8 &amp; 9, 2026</div>
-          <h1><span class="h1-line">Your Wellbeing...</span><span class="h1-line">Our Passion.</span><span class="h1-line h1-accent">A bigger experience.</span><span class="h1-line h1-accent">Opening May 8.</span></h1>
-          <p class="hero-copy">We're opening our 2nd branch in Ogudu road and you're invited. Two days of free health checks, special gifts at the store, exclusive discounts, and expert care — open to everyone.</p>
+          <div class="opening-tag">🏥 Community Pharmacy · Lagos</div>
+          <h1><span class="h1-line">Your Wellbeing....</span><span class="h1-line">Our Passion.</span><span class="h1-line h1-accent">Quality pharmacy care,</span><span class="h1-line h1-accent">closer to home.</span></h1>
+          <p class="hero-copy">Trusted medicines, expert consultations, and routine health checks — all in one place. Walk in at any of our 4 Lagos branches, or order online and get your medicines delivered to your door.</p>
           <div class="hero-meta">
             <div class="meta-item">
               <div class="meta-item-icon">📍</div>
@@ -1426,30 +1309,30 @@
               </div>
             </div>
             <div class="meta-item">
-              <div class="meta-item-icon">📅</div>
+             <div class="info-tile-icon">🕒</div>
               <div>
-                <strong>Date</strong>
-                <span>May 8 &amp; 9 · 9 AM–6 PM</span>
+                <strong>Hours</strong>
+                <span>Mon–Sat · 8 AM – 8 PM</span>
               </div>
             </div>
           </div>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#reserve">Lock In My Spot</a>
-            <a class="btn btn-secondary" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%27d%20like%20to%20reserve%20my%20free%20health%20check%20at%20the%20Ogudu%20Road%20grand%20opening." target="_blank" rel="noopener">Chat on WhatsApp</a>
+            <a class="btn btn-primary" href="#contact">Get in Touch</a>
+            <a class="btn btn-secondary" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener">Chat on WhatsApp</a>
           </div>
         </div>
 
-        <aside class="hero-visual" aria-label="Come celebrate with Medcourt Pharmacy">
+        <aside class="hero-visual" aria-label="Why choose Medcourt Pharmacy">
           <div class="celebrate-panel">
             <div class="celebrate-panel-head">
               <img src="logo.jpeg" alt="Medcourt Pharmacy">
-              <span class="celebrate-panel-badge">🎉 May 8 &amp; 9, 2026</span>
+              <span class="celebrate-panel-badge">🏥 Your Local Pharmacy</span>
             </div>
             <div class="celebrate-panel-body">
-              <div class="celebrate-quote">Come Celebrate With Us</div>
-              <p class="celebrate-text">For years, we’ve stood beside our community as a partner in health. Now, we’re opening the doors to a bigger, brighter space built for you.</p>
+              <div class="celebrate-quote">Why Choose Medcourt</div>
+              <p class="celebrate-text">For years, we’ve stood beside our community as a trusted partner in health — providing quality medicines, expert advice, and compassionate care.</p>
               <p class="celebrate-text accent">From friendly advice at the counter to comprehensive HMO support, our pharmacists deliver care that goes beyond the prescription.</p>
-              <p class="celebrate-text highlight">Reliable. Accessible. Welcoming. Step into the new branch and experience pharmacy the way it should be.</p>
+              <p class="celebrate-text highlight">Reliable. Accessible. Welcoming. Experience pharmacy care the way it should be — every day.</p>
               <div class="celebrate-pills-dark">
                 <span class="celebrate-pill-dark">🛡️ Trusted Care</span>
                 <span class="celebrate-pill-dark">👥 Friendly Staff</span>
@@ -1465,38 +1348,33 @@
 
   <section class="expect">
     <div class="container">
-      <div class="section-kicker">What to Expect</div>
-      <h2 class="section-title">Two days packed with <span>care, gifts &amp; hospitality</span></h2>
+      <div class="section-kicker">Why Choose Us</div>
+      <h2 class="section-title">Pharmacy care you can <span>count on, every day</span></h2>
       <div class="expect-grid">
         <div class="expect-card featured">
-          <div class="expect-icon">🎁</div>
-          <h3>Special Gift</h3>
-          <p>A welcome gift for every first-time visitor. Come early — it's waiting at the store.</p>
-        </div>
-        <div class="expect-card">
-          <div class="expect-icon">❤️</div>
-          <h3>Free Health Checks</h3>
-          <p>BP, blood sugar, bone density and more — on the house, no appointment needed.</p>
-        </div>
-        <div class="expect-card">
-          <div class="expect-icon">🏷️</div>
-          <h3>Exclusive Discounts</h3>
-          <p>Big savings on essential medicines and supplements — opening days only.</p>
-        </div>
-        <div class="expect-card">
           <div class="expect-icon">🛡️</div>
+          <h3>Licensed &amp; Trusted</h3>
+          <p>A fully licensed pharmacy with qualified professionals you can trust for your family's care.</p>
+        </div>
+        <div class="expect-card">
+          <div class="expect-icon">👨‍⚕️</div>
+          <h3>Professional Pharmacists</h3>
+          <p>Expert guidance on medications, dosage, and drug interactions from our licensed team.</p>
+        </div>
+        <div class="expect-card">
+          <div class="expect-icon">🏥</div>
           <h3>HMO Support Services</h3>
-          <p>On-the-spot help with your HMO and insurance. Our team is ready for you.</p>
+          <p>Seamless support for HMO customers and easy access to covered medicines at every branch.</p>
+        </div>
+        <div class="expect-card">
+          <div class="expect-icon">🚚</div>
+          <h3>Home Delivery</h3>
+          <p>Get your medicines delivered conveniently to your door when visiting isn't an option.</p>
         </div>
         <div class="expect-card">
           <div class="expect-icon">👥</div>
           <h3>Elderly Care Support</h3>
-          <p>Dedicated counsel and care for senior community members, always.</p>
-        </div>
-        <div class="expect-card">
-          <div class="expect-icon">💊</div>
-          <h3>Pharmacist Consultations</h3>
-          <p>Speak one-on-one with licensed pharmacists — free, no referral needed.</p>
+          <p>Patient, respectful support for elderly customers and their caregivers at every branch.</p>
         </div>
       </div>
     </div>
@@ -1505,8 +1383,8 @@
   <section class="services" id="services">
     <div class="container">
       <div class="section-kicker">What We Offer</div>
-      <h2 class="section-title">Your health hub for everyday care</h2>
-      <p class="section-copy">From everyday medicines to wellness checks and patient counselling, Medcourt is built to make quality pharmacy care easier to access.</p>
+      <h2 class="section-title">All Your Pharmacy Needs, <span>One Place</span></h2>
+      <p class="section-copy">Whether you need prescriptions filled, expert advice, or over-the-counter products, MedCourt has you covered.</p>
       <div class="services-grid">
         <div class="service-item">
           <h3>Quality Medicines</h3>
@@ -1516,10 +1394,7 @@
           <h3>Expert Consultation</h3>
           <p>Guidance on drugs, lifestyle-enhancing tips, counselling, and follow-up.</p>
         </div>
-        <div class="service-item">
-          <h3>Free Routine Checks</h3>
-          <p>BMI, blood pressure, glucose checks, and basic wellness screening.</p>
-        </div>
+        
         <div class="service-item">
           <h3>HMO Services</h3>
           <p>Helpful support for HMO customers and covered medicine access.</p>
@@ -1544,12 +1419,12 @@
   <section class="find-us">
     <div class="container">
       <div class="section-kicker">Find Us</div>
-      <h2 class="section-title">Join us at <span>Ogudu Road</span></h2>
-      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos (Alpha mall) · May 8 &amp; 9, 2026 · 9 AM – 6 PM. Free checks, gifts at the sstore, and the same trusted care you know. Walk in — no appointment needed.</p>
+      <h2 class="section-title">Visit us at our <span>Ogudu Road</span> branch</h2>
+      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos (Alpha mall) · Open Monday–Saturday, 8 AM – 8 PM. Quality medicines, free health checks, and expert care — walk in anytime.</p>
       <div class="find-us-grid" style="margin-top:34px;">
         <div class="find-us-map">
           <div class="map-pin">📍</div>
-          <h3>Visit the New Branch</h3>
+          <h3>Visit Us</h3>
           <p>117 Ogudu Road, Ogudu, Lagos (Alpha mall)</p>
           <a href="https://maps.google.com/?q=117+Ogudu+Road+Ogudu+Lagos" target="_blank" rel="noopener">Get Directions →</a>
         </div>
@@ -1557,22 +1432,22 @@
           <div class="info-tile">
             <div class="info-tile-icon">📍</div>
             <div>
-              <strong>New Location</strong>
+              <strong>Our Location</strong>
               <span>117 Ogudu Road, Ogudu, Lagos (Alpha mall)</span>
             </div>
           </div>
           <div class="info-tile">
-            <div class="info-tile-icon">📅</div>
+            <div class="info-tile-icon">🕒</div>
             <div>
-              <strong>May 8 &amp; 9, 2026</strong>
-              <span>9:00 AM – 6:00 PM both days</span>
+              <strong>Opening Hours</strong>
+              <span>Mon–Sat · 8:00 AM – 8:00 PM</span>
             </div>
           </div>
           <div class="info-tile">
-            <div class="info-tile-icon">🎟️</div>
+            <div class="info-tile-icon">🚶</div>
             <div>
-              <strong>Entry</strong>
-              <span>Free &amp; open to everyone — no ticket required</span>
+              <strong>Walk-ins Welcome</strong>
+              <span>No appointment needed for consultations &amp; health checks</span>
             </div>
           </div>
           <div class="info-tile">
@@ -1587,12 +1462,12 @@
     </div>
   </section>
 
-  <section class="capture" id="reserve">
+  <section class="capture" id="contact">
     <div class="container" style="max-width:640px;">
       <div class="reserve-intro">
-        <div class="section-kicker">Reserve &amp; Receive Your Gift</div>
-        <h2 class="section-title">Lock in your spot <span>in 30 seconds</span></h2>
-        <p class="section-copy">3 quick fields. Special gift waiting at the store.</p>
+        <div class="section-kicker">Get in Touch</div>
+        <h2 class="section-title">Send us a <span>message</span></h2>
+        <p class="section-copy">Questions about a prescription, HMO, or our services? Fill in the form and we’ll get back to you.</p>
       </div>
       <form class="form-panel" id="reserveForm" novalidate>
         <div class="form-grid">
@@ -1621,13 +1496,14 @@
           </div>
           <div class="form-group full">
             <label for="message">Notes</label>
-            <textarea id="message" placeholder="Tell us anything you want Medcourt to know before your visit"></textarea>
+            <textarea id="message" placeholder="Tell us how we can help"></textarea>
           </div>
         </div>
         <p class="error-text" id="reserveError">Please enter your name, email, and phone number.</p>
-        <p class="success-message" id="reserveSuccess">Thank you. Your details have been submitted successfully.</p>
-        <button type="submit" class="btn btn-submit" id="reserveSubmitBtn">Submit &amp; Confirm</button>
-        <p class="form-note" style="text-align:center;margin-top:12px;">🔒 Your information is safe and only used to reserve your slot.</p>
+        <p class="success-message" id="reserveSuccess">Thank you. Your message has been received and our team will be in touch shortly.</p>
+        <button type="submit" class="btn btn-submit" id="reserveSubmitBtn">Send Message</button>
+        <a class="btn btn-secondary" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener" style="width:100%;margin-top:10px;">💬 Chat on WhatsApp</a>
+        <p class="form-note" style="text-align:center;margin-top:12px;">🔒 Your information is safe and only used to respond to your enquiry.</p>
       </form>      
     </div>
   </section>
@@ -1639,7 +1515,7 @@
       <p class="section-copy">You can reach Medcourt at any of our Lagos branches for medicines, consultation support, and wellness services.</p>
       <div class="branch-grid">
         <div class="branch" style="border-top:4px solid var(--pink);">
-          <h3>Ogudu Road ✨ New</h3>
+          <h3>Ogudu Road</h3>
           <p style="color:var(--muted);font-size:13px;font-weight:600;margin-bottom:8px;">117 Ogudu Road, Ogudu, Lagos (Alpha mall)</p>
           <a href="tel:+2348165005208">0816 500 5208</a>
         </div>
@@ -1698,82 +1574,10 @@
       + '&phone=' + encodeURIComponent(data.phone || '')
       + '&service=' + encodeURIComponent(data.service || '')
       + '&message=' + encodeURIComponent(data.message || '')
-      + '&source=' + encodeURIComponent(data.source || 'Medcourt Ogudu 2 Landing Page');
+      + '&source=' + encodeURIComponent(data.source || 'Medcourt Landing Page');
 
     return fetch(url, { method: 'GET', mode: 'no-cors' });
   }
-
-  (function () {
-    var overlay = document.getElementById('popupOverlay');
-    var closeBtn = document.getElementById('popupClose');
-    var form = document.getElementById('popupForm');
-    var submitBtn = document.getElementById('popupSubmitBtn');
-    var errorEl = document.getElementById('popupError');
-    var contentEl = document.getElementById('popupContent');
-    var successEl = document.getElementById('popupSuccess');
-    var successCloseBtn = document.getElementById('popupSuccessClose');
-
-    function openPopup() {
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closePopup() {
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    if (!sessionStorage.getItem('medcourt_popup_done')) {
-      setTimeout(openPopup, 1600);
-    }
-
-    overlay.addEventListener('click', function (event) {
-      if (event.target === overlay) closePopup();
-    });
-
-    closeBtn.addEventListener('click', closePopup);
-    successCloseBtn.addEventListener('click', function () {
-      closePopup();
-      document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closePopup();
-    });
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      var data = {
-        name: document.getElementById('popup-name').value.trim(),
-        email: document.getElementById('popup-email').value.trim(),
-        phone: document.getElementById('popup-phone').value.trim(),
-        service: 'Free opening health check',
-        source: 'Medcourt popup'
-      };
-
-      if (!data.name || !data.email || !data.phone) {
-        errorEl.style.display = 'block';
-        return;
-      }
-
-      errorEl.style.display = 'none';
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-
-      saveLead(data)
-        .then(function () {
-          sessionStorage.setItem('medcourt_popup_done', '1');
-          contentEl.style.display = 'none';
-          successEl.style.display = 'block';
-        })
-        .catch(function () {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit Details';
-          errorEl.textContent = 'Something went wrong. Please try again.';
-          errorEl.style.display = 'block';
-        });
-    });
-  })();
 
   document.getElementById('reserveForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -1786,7 +1590,7 @@
       email: document.getElementById('email').value.trim(),
       service: Array.from(document.querySelectorAll('#serviceChips .service-chip.selected')).map(function(b){return b.dataset.value;}).join(', ') || 'Not specified',
       message: document.getElementById('message').value.trim(),
-      source: 'Medcourt main form'
+      source: 'Medcourt Landing Page'
     };
 
     if (!data.name || !data.email || !data.phone) {
@@ -1798,52 +1602,23 @@
     errorEl.style.display = 'none';
     successEl.style.display = 'none';
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
+    submitBtn.textContent = 'Sending...';
 
     saveLead(data)
       .then(function () {
         document.getElementById('reserveForm').reset();
         successEl.style.display = 'block';
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Details';
+        submitBtn.textContent = 'Send Message';
       })
       .catch(function () {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Details';
+        submitBtn.textContent = 'Send Message';
         errorEl.textContent = 'Something went wrong. Please try again.';
         errorEl.style.display = 'block';
       });
   });
 
-  // Topbar countdown to May 8 2026 09:00 WAT (UTC+1)
-  (function () {
-    var target = new Date('2026-05-08T09:00:00+01:00').getTime();
-    var days = document.getElementById('tb-days');
-    var hours = document.getElementById('tb-hours');
-    var mins = document.getElementById('tb-mins');
-    var secs = document.getElementById('tb-secs');
-    var days2 = document.querySelector('.tb-days2');
-    var hours2 = document.querySelector('.tb-hours2');
-    var mins2 = document.querySelector('.tb-mins2');
-    var secs2 = document.querySelector('.tb-secs2');
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function tick() {
-      var diff = target - Date.now();
-      var d, h, m, s;
-      if (diff <= 0) {
-        d = h = m = s = '00';
-      } else {
-        d = pad(Math.floor(diff / 86400000));
-        h = pad(Math.floor((diff % 86400000) / 3600000));
-        m = pad(Math.floor((diff % 3600000) / 60000));
-        s = pad(Math.floor((diff % 60000) / 1000));
-      }
-      days.textContent = d; hours.textContent = h; mins.textContent = m; secs.textContent = s;
-      days2.textContent = d; hours2.textContent = h; mins2.textContent = m; secs2.textContent = s;
-    }
-    tick();
-    setInterval(tick, 1000);
-  })();
 </script>
 </body>
 </html>
