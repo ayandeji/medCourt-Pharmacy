@@ -208,6 +208,30 @@
     min-height: 52px;
   }
 
+  /* Button loading spinner */
+  .btn .spinner,
+  .btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-top-color: rgba(255,255,255,0.95);
+    vertical-align: middle;
+    margin-right: 8px;
+    box-sizing: border-box;
+    animation: spin 0.8s linear infinite;
+  }
+
+  /* darker spinner for buttons with light text on pale background */
+  .btn-primary.loading .spinner,
+  .btn-submit.loading .spinner {
+    border: 2px solid rgba(255,255,255,0.25);
+    border-top-color: rgba(255,255,255,0.95);
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   .hero {
     background:
       linear-gradient(135deg, var(--white) 0 58%, var(--cyan-soft) 58% 100%);
@@ -668,6 +692,48 @@
     font-weight: 800;
     line-height: 1.45;
   }
+
+  /* Compact horizontal perks strip (popup — topbar-like auto-scroll) */
+  .perks-strip {
+    display: block;
+    margin-top: 12px;
+    height: 34px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--pink), var(--cyan));
+    color: var(--white);
+  }
+
+  .perks-track {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    white-space: nowrap;
+    padding: 4px 12px;
+    transform: translateX(0);
+    animation: topbar-slide 24s linear infinite;
+  }
+
+  .perks-strip:hover .perks-track { animation-play-state: paused; }
+
+  .perks-strip .perk {
+    border-left: 0;
+    background: rgba(255,255,255,0.06);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    flex: 0 0 auto;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .perks-strip::-webkit-scrollbar { height: 6px; }
+  .perks-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 6px; }
+
+  .perk-icon { font-size: 16px; line-height: 1; color: #fff; }
 
   .form-panel {
     border: 1px solid var(--line);
@@ -1187,6 +1253,168 @@
   .socials { display: grid; gap: 6px; text-align: right; }
   .socials a { color: var(--white); text-decoration: none; font-weight: 800; }
 
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(16,32,48,0.68);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .popup-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .popup-box {
+    width: min(460px, 100%);
+    background: var(--white);
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+    border-top: 8px solid var(--pink);
+    box-shadow: 0 26px 70px rgba(0,0,0,0.28);
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--cyan-soft);
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .popup-box h2 {
+    font-family: "Outfit", Arial, sans-serif;
+    font-size: 1.8rem;
+    line-height: 1.08;
+    padding-right: 34px;
+    margin-bottom: 12px;
+  }
+
+  .popup-box p {
+    color: var(--muted);
+    line-height: 1.65;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+
+  .popup-badge {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    background: var(--cyan);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  
+  /* Funfair-style header for popup */
+  .popup-header {
+    text-align: center;
+    padding: 6px 0 12px;
+  }
+  .popup-header .sponsor-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, var(--cyan), var(--pink));
+    color: #fff;
+  }
+  .popup-header .header-emojis { display:block; font-size:20px; margin-bottom:6px; }
+  .popup-header h1 { font-family: "Outfit", Arial, sans-serif; font-size:1.45rem; line-height:1.05; margin-bottom:6px; }
+  .popup-header h1 .highlight { color: var(--pink); }
+  .popup-header p { color: var(--muted); font-size:13px; margin-bottom: 10px; }
+
+  /* Popover form styles inspired by Medcourt funfair */
+  .chip-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+
+  .chip-grid::-webkit-scrollbar { height: 8px; }
+  .chip-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 8px; }
+
+  .chip {
+    flex: 0 0 auto;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white);
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  /* allow horizontal pan gestures and improve scrollbar behavior */
+  .chip-grid { touch-action: pan-x; -ms-overflow-style: -ms-autohiding-scrollbar; }
+  .chip { touch-action: manipulation; }
+
+  .chip:active { transform: translateY(1px); }
+
+  .chip .chip-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid #e6edf0; background: transparent; flex-shrink:0;
+  }
+
+  .chip input[type="checkbox"] { display: none; }
+
+  .chip.on { border-color: var(--pink); background: rgba(238,47,123,0.06); color: var(--pink-dark); }
+  .chip.on .chip-dot { background: var(--pink); border-color: var(--pink); }
+
+  .popup-form-row { display: grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .popup-select { width: 100%; border: 1.5px solid var(--line); border-radius:8px; padding:10px; }
+
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 12px 0 4px;
+  }
+
+  .success-state h3 {
+    font-family: "Outfit", Arial, sans-serif;
+    font-size: 1.65rem;
+    margin-bottom: 10px;
+  }
+
+  .success-state p { margin-bottom: 8px; }
+
   .success-message {
     display: none;
     border: 1px solid rgba(0,169,232,0.24);
@@ -1260,13 +1488,98 @@
 </head>
 <body>
 
+<div class="popup-overlay" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup-box">
+    <button class="popup-close" id="popupClose" aria-label="Close">&times;</button>
+    <div id="popupContent">
+      <div class="popup-header">
+        <span class="sponsor-badge">🤝 Your Trusted Partner in Health</span>
+        <span class="header-emojis">🎈🍦🎡🍿</span>
+<h1>Claim Your <span class="highlight">Free</span><br>Funfair Benefits!</h1>
+      <p>Fill in your details and get an instant code which gives you discounts that you can redeem at the Medcourt pharmacy store.</p>
+      </div>
+      
+      <form id="popupForm" novalidate>
+        <div class="perks-strip" aria-hidden="true" style="margin-bottom:12px;">
+          <div class="perks-track">
+            <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
+            <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
+            <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div>
+            <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
+            <!-- <div class="perk"><span class="perk-icon">🎁</span>Free Sampling</div> -->
+            <!-- duplicate for seamless loop -->
+            <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
+            <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
+            <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div>
+            <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
+            <!-- <div class="perk"><span class="perk-icon">🎁</span>Free Sampling</div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="popup-name">Full Name *</label>
+          <input type="text" id="popup-name" placeholder="Your full name" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="popup-email">Email</label>
+          <input type="email" id="popup-email" placeholder="you@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="popup-phone">Phone Number *</label>
+          <input type="tel" id="popup-phone" placeholder="0800 000 0000" required autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="popup-numChildren">No. of Children</label>
+          <select id="popup-numChildren" class="popup-select">
+            <option value="" disabled selected>Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5+">5+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="popup-ageRange">Children Age Range</label>
+          <select id="popup-ageRange" class="popup-select">
+            <option value="" disabled selected>Select</option>
+            <option value="0-2">0 – 2 yrs</option>
+            <option value="3-5">3 – 5 yrs</option>
+            <option value="6-9">6 – 9 yrs</option>
+            <option value="10-12">10 – 12 yrs</option>
+            <option value="Mixed">Mixed ages</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Healthcare interest <span style="font-weight:500;color:var(--muted);font-size:12px;">Optional</span></label>
+          <div class="chip-grid" id="popupChipGrid">
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Child Nutrition</label>
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Vitamins & Supplements</label>
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Dental Health</label>
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Eye & Vision</label>
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Baby & Skin Care</label>
+            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>General Wellness</label>
+          </div>
+        </div>
+        <p class="error-text" id="popupError">Please enter your name and phone number.</p>
+        <button type="submit" class="btn btn-primary" id="popupSubmitBtn" style="width:100%;">Get Voucher Code</button>
+      </form>
+    </div>
+    <div class="success-state" id="popupSuccess">
+      <h3>Details submitted</h3>
+      <p>Thank you. Your details have been saved and the Medcourt team will follow up with your opening ceremony information.</p>
+      <button type="button" class="btn btn-secondary" id="popupSuccessClose" style="width:100%;">Close</button>
+    </div>
+  </div>
+</div>
+
+
 <div class="topbar" aria-hidden="true">
   <div class="topbar-track" id="topbarTrack">
     <span class="topbar-item">💊 Quality Medicines &amp; Supplements</span>
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item">📍 4 Branches Across Lagos</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 8 PM</span>
+    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 9 PM · Sun · 12 PM – 7 PM</span>
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item"><a href="https://wa.me/2348165005208">Chat on WhatsApp →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
@@ -1277,7 +1590,7 @@
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item">📍 4 Branches Across Lagos</span>
     <span class="topbar-item topbar-sep">✶</span>
-    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 8 PM</span>
+    <span class="topbar-item">🕒 Open Mon–Sat · 8 AM – 9 PM · Sun · 12 PM – 7 PM</span>
     <span class="topbar-item topbar-sep">✶</span>
     <span class="topbar-item"><a href="https://wa.me/2348165005208">Chat on WhatsApp →</a></span>
     <span class="topbar-item topbar-sep">✶</span>
@@ -1306,8 +1619,8 @@
       <div class="hero-grid">
         <div class="hero-content">
           <div class="opening-tag">🏥 Community Pharmacy · Lagos</div>
-          <h1><span class="h1-line">Your Wellbeing....</span><span class="h1-line">Our Passion.</span><span class="h1-line h1-accent">Quality pharmacy care,</span><span class="h1-line h1-accent">closer to home.</span></h1>
-          <p class="hero-copy">Trusted medicines, expert consultations, and routine health checks — all in one place. Walk in at any of our 4 Lagos branches, or order online and get your medicines delivered to your door.</p>
+          <h1><span class="h1-line">Your Wellbeing ... Our Passion.</span><span class="h1-line h1-accent">Quality pharmacy care,</span><span class="h1-line h1-accent">closer to home.</span></h1>
+          <p class="hero-copy">Trusted medicines, expert consultations, and routine health checks — all in one place. Walk into any of our four Lagos branches, or place your order online and have your medicines delivered straight to your doorstep..</p>
           <div class="hero-meta">
             <div class="meta-item">
               <div class="meta-item-icon">📍</div>
@@ -1319,8 +1632,9 @@
             <div class="meta-item">
              <div class="info-tile-icon">🕒</div>
               <div>
-                <strong>Hours</strong>
-                <span>Mon–Sat · 8 AM – 8 PM</span>
+                <strong>Opening Hours</strong>
+                <span>Mon–Sat · 8 AM – 9 PM </span>
+                 <span> Sun · 12 PM – 7 PM</span>
               </div>
             </div>
           </div>
@@ -1334,7 +1648,7 @@
           <div class="celebrate-panel">
             <div class="celebrate-panel-head">
               <img src="logo.jpeg" alt="Medcourt Pharmacy">
-              <span class="celebrate-panel-badge">🏥 Your Local Pharmacy</span>
+              <span class="celebrate-panel-badge">🏥 Your Trusted Partner in Health</span>
             </div>
             <div class="celebrate-panel-body">
               <div class="celebrate-quote">Why Choose Medcourt</div>
@@ -1347,6 +1661,7 @@
                 <span class="celebrate-pill-dark">📍 Better Access</span>
                 <span class="celebrate-pill-dark">❤️ Community Focused</span>
               </div>
+              <!-- perks strip removed from celebrate panel (moved into popup) -->
             </div>
           </div>
         </aside>
@@ -1427,8 +1742,8 @@
   <section class="find-us">
     <div class="container">
       <div class="section-kicker">Find Us</div>
-      <h2 class="section-title">Visit us at our <span>Ogudu Road</span> branch</h2>
-      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos (Alpha mall) · Open Monday–Saturday, 8 AM – 8 PM. Quality medicines, free health checks, and expert care — walk in anytime.</p>
+      <h2 class="section-title">Kindly visit our <span>Ogudu Road</span> branch</h2>
+      <p class="section-copy">117 Ogudu Road, Ogudu, Lagos (Alpha mall) · Open Mon–Sat · 8 AM – 9 PM · Sun · 12 PM – 7 PM. Quality medicines, free health checks, and expert care — walk in anytime.</p>
       <div class="find-us-grid" style="margin-top:34px;">
         <div class="find-us-map">
           <div class="map-pin">📍</div>
@@ -1448,7 +1763,7 @@
             <div class="info-tile-icon">🕒</div>
             <div>
               <strong>Opening Hours</strong>
-              <span>Mon–Sat · 8:00 AM – 8:00 PM</span>
+              <span>Mon–Sat · 8:00 AM – 9:00 PM · Sun · 12:00 PM – 7:00 PM</span>
             </div>
           </div>
           <div class="info-tile">
@@ -1555,7 +1870,8 @@
     <p>117 Ogudu Road, Ogudu, Lagos (Alpha mall)<br>Your well being....our passion</p>
     <div class="socials">
       <a href="https://www.instagram.com/medcourt_pharm" target="_blank" rel="noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@medcourt_pharmaceutical_ltd
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 
+        24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@medcourt_pharmaceutical_ltd
       </a>
       <a href="https://www.tiktok.com/@medcourt_pharmacy" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px;"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>@medcourt_pharmacy
@@ -1572,19 +1888,31 @@
     });
   });
 
-  var GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzB5FtQGA6ZPH6-klTxqI-dMBZ7Ilcs9vLpcj0gfjExlrqnI6nU8xNYZ5tpRn5hoO7ewg/exec';
+  // Replace this with the deployed Apps Script web app URL after deployment
+  var PROD_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyvRkY3Cn_gHGEc4VXm506hF5E5qcuAa7KVkxZFi0ITftlqlFSCNrRjRI327DegovLEzw/exec';
+  var LOCAL_PROXY_URL = 'http://localhost:8001';
+  // Auto-switch to proxy when running locally (localhost / 127.0.0.1) or from file://
+  var WEBAPP_URL = (location && (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:')) ? LOCAL_PROXY_URL : PROD_WEBAPP_URL;
 
   function saveLead(data) {
-    if (!GOOGLE_SHEET_URL) return Promise.resolve();
-    var url = GOOGLE_SHEET_URL
-      + '?name=' + encodeURIComponent(data.name || '')
-      + '&email=' + encodeURIComponent(data.email || '')
-      + '&phone=' + encodeURIComponent(data.phone || '')
-      + '&service=' + encodeURIComponent(data.service || '')
-      + '&message=' + encodeURIComponent(data.message || '')
-      + '&source=' + encodeURIComponent(data.source || 'Medcourt Landing Page');
-
-    return fetch(url, { method: 'GET', mode: 'no-cors' });
+    if (!WEBAPP_URL) return Promise.reject(new Error('WEBAPP_URL not configured'));
+    return fetch(WEBAPP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function (resp) {
+      // Some Google Apps Script deployments respond with a redirect or HTML
+      // (script.googleusercontent.com) which makes `resp.json()` fail.
+      // Attempt to parse JSON, but fall back to a generic success object
+      // when the body is not valid JSON but the request completed.
+      return resp.text().then(function(text){
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          return { success: true };
+        }
+      });
+    });
   }
 
   document.getElementById('reserveForm').addEventListener('submit', function (event) {
@@ -1626,6 +1954,119 @@
         errorEl.style.display = 'block';
       });
   });
+
+      // Popup: show on load, handle close and submit
+      (function(){
+        var overlay = document.getElementById('popupOverlay');
+        var popupClose = document.getElementById('popupClose');
+        var popupSuccessClose = document.getElementById('popupSuccessClose');
+        var popupForm = document.getElementById('popupForm');
+        var popupError = document.getElementById('popupError');
+        var popupContent = document.getElementById('popupContent');
+        var popupSuccess = document.getElementById('popupSuccess');
+
+        function showPopup(){ if(overlay) overlay.classList.add('active'); }
+        function hidePopup(){ if(overlay) overlay.classList.remove('active'); }
+
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(showPopup, 700); });
+
+        if (popupClose) popupClose.addEventListener('click', hidePopup);
+        if (popupSuccessClose) popupSuccessClose.addEventListener('click', hidePopup);
+
+        if (popupForm) popupForm.addEventListener('submit', function(e){
+          e.preventDefault();
+          var submitBtn = document.getElementById('popupSubmitBtn');
+          var originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Get Voucher Code';
+
+          var name = document.getElementById('popup-name').value.trim();
+          var email = document.getElementById('popup-email').value.trim();
+          var phone = document.getElementById('popup-phone').value.trim();
+          var phoneDigits = phone.replace(/\D/g, '');
+          var children = (document.getElementById('popup-numChildren') && document.getElementById('popup-numChildren').value) ? document.getElementById('popup-numChildren').value : '';
+          var ageRange = (document.getElementById('popup-ageRange') && document.getElementById('popup-ageRange').value) ? document.getElementById('popup-ageRange').value : '';
+          var selectedChips = Array.from(document.querySelectorAll('#popupChipGrid .chip.on')).map(function(c){ return c.textContent.trim(); });
+          var interest = selectedChips.join(', ');
+
+          function restoreButton(){
+            if (!submitBtn) return;
+            submitBtn.disabled = false;
+            submitBtn.removeAttribute('aria-busy');
+            submitBtn.classList.remove('loading');
+            submitBtn.innerHTML = originalBtnHTML;
+          }
+
+          if (!name || !phone) {
+            if (popupError) { popupError.textContent = 'Please enter your name and phone number.'; popupError.style.display = 'block'; }
+            restoreButton();
+            return;
+          }
+
+          // ensure phone number contains exactly 11 digits
+          if (phoneDigits.length !== 11) {
+            if (popupError) { popupError.textContent = 'Please enter a valid 11-digit phone number.'; popupError.style.display = 'block'; }
+            restoreButton();
+            return;
+          }
+          // healthcare interest is optional for popup
+          if (popupError) popupError.style.display = 'none';
+
+          // show loading spinner on the submit button
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.setAttribute('aria-busy', 'true');
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span>Sending...';
+          }
+
+          var data = {
+            name: name || '',
+            email: email || '',
+            phone: phoneDigits,
+            children: children || '',
+            ageRange: ageRange || '',
+            interest: interest || '',
+            service: 'OGRA',
+            message: 'OGRA reservation',
+            source: 'Popup'
+          };
+
+          saveLead(data)
+            .then(function(resp){
+              if (!resp || !resp.success) throw new Error((resp && resp.error) ? resp.error : 'Submission failed');
+              // hide popup and redirect to WhatsApp (do not reveal voucher to user)
+              try { hidePopup(); } catch(e){}
+              var adminNumber = '2348165005208';
+              var text = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
+              var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(text);
+              // small delay so the popup close animation is visible before navigation
+              setTimeout(function(){ window.location.href = waUrl; }, 160);
+            })
+            .catch(function(err){
+              restoreButton();
+              if (popupError) { popupError.textContent = 'Something went wrong. Please try again.'; popupError.style.display = 'block'; }
+            });
+        });
+      })();
+
+      // Popup chip toggles: attach handlers to each chip for reliable interaction
+      (function(){
+        var chips = Array.from(document.querySelectorAll('#popupChipGrid .chip'));
+        chips.forEach(function(chip){
+          chip.setAttribute('tabindex', '0');
+          chip.addEventListener('click', function(e){
+            e.preventDefault();
+            chip.classList.toggle('on');
+            var cb = chip.querySelector('input[type=checkbox]');
+            if (cb) cb.checked = chip.classList.contains('on');
+          });
+          chip.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
+              e.preventDefault();
+              chip.click();
+            }
+          });
+        });
+      })();
 
 </script>
 </body>
