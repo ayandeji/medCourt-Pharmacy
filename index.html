@@ -1881,8 +1881,16 @@
   // Replace this with the deployed Apps Script web app URL after deployment
   var PROD_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyvRkY3Cn_gHGEc4VXm506hF5E5qcuAa7KVkxZFi0ITftlqlFSCNrRjRI327DegovLEzw/exec';
   var LOCAL_PROXY_URL = 'http://localhost:8001';
-  // Auto-switch to proxy when running locally (localhost / 127.0.0.1) or from file://
-  var WEBAPP_URL = (location && (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:')) ? LOCAL_PROXY_URL : PROD_WEBAPP_URL;
+  // Prefer a relative proxy path in production (Netlify _redirects) to avoid CORS.
+  // Local development still uses the local proxy at `LOCAL_PROXY_URL`.
+  var NETLIFY_PROXY_PATH = '/api/webapp';
+  var WEBAPP_URL;
+  if (location && (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:')) {
+    WEBAPP_URL = LOCAL_PROXY_URL;
+  } else {
+    // when deployed (e.g. Netlify), use the site-relative proxy path which Netlify will forward server-side
+    WEBAPP_URL = NETLIFY_PROXY_PATH;
+  }
 
   function saveLead(data) {
     if (!WEBAPP_URL) return Promise.reject(new Error('WEBAPP_URL not configured'));
