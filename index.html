@@ -1502,13 +1502,13 @@
       <form id="popupForm" novalidate>
         <!-- <div class="perks-strip" aria-hidden="true" style="margin-bottom:12px;">
           <div class="perks-track">
-            <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
+            <div class="perk"><span class="perk-icon">🏷️</span>10% Discount</div>
             <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
             <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div>
             <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
             <!-- <div class="perk"><span class="perk-icon">🎁</span>Free Sampling</div> -->
             <!-- duplicate for seamless loop -->
-            <!-- <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
+            <!-- <div class="perk"><span class="perk-icon">🏷️</span>10% Discount</div>
             <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
             <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div> -->
             <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
@@ -2007,6 +2007,13 @@
           // healthcare interest is optional for popup
           if (popupError) popupError.style.display = 'none';
 
+          // prepare WhatsApp URL and open a blank window synchronously (avoids popup blockers)
+          var adminNumber = '2348165005208';
+          var waText = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
+          var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(waText);
+          var waWindow = null;
+          try { waWindow = window.open('', '_blank'); } catch (e) { waWindow = null; }
+
           // show loading spinner on the submit button
           if (submitBtn) {
             submitBtn.disabled = true;
@@ -2030,15 +2037,19 @@
           saveLead(data)
             .then(function(resp){
               if (!resp || !resp.success) throw new Error((resp && resp.error) ? resp.error : 'Submission failed');
-              // hide popup and redirect to WhatsApp (do not reveal voucher to user)
               try { hidePopup(); } catch(e){}
-              var adminNumber = '2348165005208';
-              var text = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
-              var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(text);
-              // small delay so the popup close animation is visible before navigation
-              setTimeout(function(){ window.location.href = waUrl; }, 160);
+              if (waWindow) {
+                try { waWindow.location = waUrl; } catch(e) { window.location.href = waUrl; }
+              } else {
+                setTimeout(function(){ window.location.href = waUrl; }, 160);
+              }
             })
             .catch(function(err){
+              if (waWindow) {
+                try { hidePopup(); } catch(e){}
+                try { waWindow.location = waUrl; } catch(e) { /* ignore */ }
+                return;
+              }
               restoreButton();
               if (popupError) { popupError.textContent = 'Something went wrong. Please try again.'; popupError.style.display = 'block'; }
             });
