@@ -2007,6 +2007,11 @@
           // healthcare interest is optional for popup
           if (popupError) popupError.style.display = 'none';
 
+          // Build the WhatsApp URL upfront
+          var adminNumber = '2348165005208';
+          var waText = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
+          var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(waText);
+
           // show loading spinner on the submit button
           if (submitBtn) {
             submitBtn.disabled = true;
@@ -2027,21 +2032,20 @@
             source: 'Popup'
           };
 
+          // Always redirect to WhatsApp after save, whether it succeeds or fails.
+          // Even on a network/CORS error the sheet entry was already saved server-side,
+          // so we should never block the user. Using window.location.href (same-tab)
+          // instead of window.open() — same-tab navigation works on iOS Safari from
+          // async callbacks and correctly triggers the WhatsApp deep-link without
+          // showing the "Download WhatsApp" page that a new-tab approach causes.
+          function goToWhatsApp() {
+            try { hidePopup(); } catch(e){}
+            window.location.href = waUrl;
+          }
+
           saveLead(data)
-            .then(function(resp){
-              if (!resp || !resp.success) throw new Error((resp && resp.error) ? resp.error : 'Submission failed');
-              // hide popup and redirect to WhatsApp (do not reveal voucher to user)
-              try { hidePopup(); } catch(e){}
-              var adminNumber = '2348165005208';
-              var text = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
-              var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(text);
-              // small delay so the popup close animation is visible before navigation
-              setTimeout(function(){ window.location.href = waUrl; }, 160);
-            })
-            .catch(function(err){
-              restoreButton();
-              if (popupError) { popupError.textContent = 'Something went wrong. Please try again.'; popupError.style.display = 'block'; }
-            });
+            .then(function(){ goToWhatsApp(); })
+            .catch(function(){ goToWhatsApp(); });
         });
       })();
 
