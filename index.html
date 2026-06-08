@@ -1488,48 +1488,32 @@
 </head>
 <body>
 
-<div class="popup-overlay" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+<template id="popupOverlayDisabled">
+  <!-- Popup form disabled: original popup markup moved here. -->
   <div class="popup-box">
-    <button class="popup-close" id="popupClose" aria-label="Close">&times;</button>
+    <button class="popup-close" aria-hidden="true" aria-label="Close">&times;</button>
     <div id="popupContent">
       <div class="popup-header">
-        <!-- <span class="sponsor-badge">🤝 Your Trusted Partner in Health</span> -->
         <span class="header-emojis">🎈🍦🎡🍿</span>
-<h1>Claim Your <span class="highlight">Free</span><br>Funfair Benefits!</h1>
-      <p>Fill in your details and get an instant code which gives you discounts that you can redeem at the Medcourt pharmacy store.</p>
+        <h1>Claim Your <span class="highlight">Free</span><br>Funfair Benefits!</h1>
+        <p>Fill in your details and get an instant code which gives you discounts that you can redeem at the Medcourt pharmacy store.</p>
       </div>
-      
-      <form id="popupForm" novalidate>
-        <!-- <div class="perks-strip" aria-hidden="true" style="margin-bottom:12px;">
-          <div class="perks-track">
-            <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
-            <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
-            <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div>
-            <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
-            <!-- <div class="perk"><span class="perk-icon">🎁</span>Free Sampling</div> -->
-            <!-- duplicate for seamless loop -->
-            <!-- <div class="perk"><span class="perk-icon">🏷️</span>12% Discount</div>
-            <div class="perk"><span class="perk-icon">🍿</span>Free Popcorn</div>
-            <div class="perk"><span class="perk-icon">🍦</span>Free Ice Cream</div> -->
-            <!-- <div class="perk"><span class="perk-icon">🩺</span>Free Consultation</div> -->
-            <!-- <div class="perk"><span class="perk-icon">🎁</span>Free Sampling</div> -->
-          <!-- </div>
-        </div> -->
+      <form novalidate>
         <div class="form-group">
-          <label for="popup-name">Full Name *</label>
-          <input type="text" id="popup-name" placeholder="Your full name" required autocomplete="name">
+          <label>Full Name *</label>
+          <input type="text" placeholder="Your full name" autocomplete="name">
         </div>
         <div class="form-group">
-          <label for="popup-email">Email</label>
-          <input type="email" id="popup-email" placeholder="you@email.com" autocomplete="email">
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com" autocomplete="email">
         </div>
         <div class="form-group">
-          <label for="popup-phone">Phone Number *</label>
-          <input type="tel" id="popup-phone" placeholder="0800 000 0000" required autocomplete="tel">
+          <label>Phone Number *</label>
+          <input type="tel" placeholder="0800 000 0000" autocomplete="tel">
         </div>
         <div class="form-group">
-          <label for="popup-numChildren">No. of Children</label>
-          <select id="popup-numChildren" class="popup-select">
+          <label>No. of Children</label>
+          <select class="popup-select">
             <option value="" disabled selected>Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -1538,10 +1522,9 @@
             <option value="5+">5+</option>
           </select>
         </div>
-        <!-- Children Age Range removed per request; sheet will receive an empty value -->
         <div class="form-group full">
           <label>Healthcare interest <span style="font-weight:500;color:var(--muted);font-size:12px;">Optional</span></label>
-          <div class="chip-grid" id="popupChipGrid">
+          <div class="chip-grid">
             <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Child Nutrition</label>
             <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Vitamins & Supplements</label>
             <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Dental Health</label>
@@ -1550,17 +1533,17 @@
             <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>General Wellness</label>
           </div>
         </div>
-        <p class="error-text" id="popupError">Please enter your name and phone number.</p>
-        <button type="submit" class="btn btn-primary" id="popupSubmitBtn" style="width:100%;">Get Voucher Code</button>
+        <p class="error-text">Please enter your name and phone number.</p>
+        <button type="button" class="btn btn-primary" style="width:100%;">Get Voucher Code</button>
       </form>
     </div>
-    <div class="success-state" id="popupSuccess">
+    <div class="success-state">
       <h3>Details submitted</h3>
       <p>Thank you. Your details have been saved and the Medcourt team will follow up with your opening ceremony information.</p>
-      <button type="button" class="btn btn-secondary" id="popupSuccessClose" style="width:100%;">Close</button>
+      <button type="button" class="btn btn-secondary" style="width:100%;">Close</button>
     </div>
   </div>
-</div>
+</template>
 
 
 <div class="topbar" aria-hidden="true">
