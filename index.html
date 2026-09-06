@@ -732,7 +732,7 @@
 
   .bundle-total {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 14px;
     margin-bottom: 14px;
@@ -741,7 +741,7 @@
     background: color-mix(in srgb, var(--bundle-accent) 10%, white);
   }
 
-  .bundle-total span {
+  .bundle-total-label {
     color: var(--muted);
     font-size: 12px;
     font-weight: 900;
@@ -749,7 +749,32 @@
     text-transform: uppercase;
   }
 
-  .bundle-total strong {
+  .bundle-discount-badge {
+    display: block;
+    width: max-content;
+    margin-top: 5px;
+    padding: 4px 7px;
+    border-radius: 999px;
+    background: var(--bundle-accent);
+    color: var(--white);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .bundle-price {
+    display: grid;
+    justify-items: end;
+    gap: 2px;
+  }
+
+  .bundle-original-price {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration-thickness: 2px;
+  }
+
+  .bundle-discount-price {
     color: var(--ink);
     font-family: "Outfit", Arial, sans-serif;
     font-size: 1.65rem;
@@ -1499,12 +1524,14 @@
     justify-content: center;
     padding: 20px;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
   .popup-overlay.active {
     opacity: 1;
+    visibility: visible;
     pointer-events: all;
   }
 
@@ -1514,9 +1541,13 @@
     border-radius: 8px;
     padding: 30px;
     position: relative;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
     border-top: 8px solid var(--pink);
     box-shadow: 0 26px 70px rgba(0,0,0,0.28);
   }
+
+  body.popup-open { overflow: hidden; }
 
   .popup-close {
     position: absolute;
@@ -1561,6 +1592,65 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     margin-bottom: 14px;
+  }
+
+  .membership-popup .popup-header {
+    padding: 0 0 8px;
+    text-align: left;
+  }
+
+  .membership-popup .popup-header h2 {
+    font-size: 2rem;
+    line-height: 1.08;
+  }
+
+  .membership-popup .popup-header p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .membership-popup form {
+    display: grid;
+    gap: 14px;
+  }
+
+  .membership-popup .form-group {
+    gap: 7px;
+  }
+
+  .membership-popup .error-text {
+    margin: -2px 0 0;
+  }
+
+  .popup-actions {
+    display: grid;
+    gap: 8px;
+  }
+
+  .popup-decline {
+    min-height: 40px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .popup-decline:hover { color: var(--ink); }
+
+  .popup-privacy {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .membership-popup .success-state {
+    padding: 28px 0 10px;
   }
   
   /* Funfair-style header for popup */
@@ -1761,62 +1851,39 @@
 </head>
 <body>
 
-<template id="popupOverlayDisabled">
-  <!-- Popup form disabled: original popup markup moved here. -->
-  <div class="popup-box">
-    <button class="popup-close" aria-hidden="true" aria-label="Close">&times;</button>
+<div class="popup-overlay" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupDescription">
+  <div class="popup-box membership-popup" role="document">
+    <button class="popup-close" id="popupClose" type="button" aria-label="Dismiss membership offer">&times;</button>
     <div id="popupContent">
       <div class="popup-header">
-        <span class="header-emojis">🎈🍦🎡🍿</span>
-        <h1>Claim Your <span class="highlight">Free</span><br>Funfair Benefits!</h1>
-        <p>Fill in your details and get an instant code which gives you discounts that you can redeem at the Medcourt pharmacy store.</p>
+        <span class="popup-badge">Medcourt Membership</span>
+        <h2 id="popupTitle">Exclusive Health Benefits, Just for Members.</h2>
+        <p id="popupDescription">Join Medcourt membership to enjoy complimentary BP and blood sugar checks, priority access to new wellness packs, and exclusive member-only pricing.</p>
       </div>
-      <form novalidate>
+      <form id="popupForm" novalidate>
         <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" placeholder="Your full name" autocomplete="name">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="you@email.com" autocomplete="email">
+          <label for="popup-name">Name *</label>
+          <input type="text" id="popup-name" placeholder="Your full name" required autocomplete="name">
         </div>
         <div class="form-group">
-          <label>Phone Number *</label>
-          <input type="tel" placeholder="0800 000 0000" autocomplete="tel">
+          <label for="popup-phone">Phone Number *</label>
+          <input type="tel" id="popup-phone" placeholder="0800 000 0000" required autocomplete="tel" inputmode="tel">
         </div>
-        <div class="form-group">
-          <label>No. of Children</label>
-          <select class="popup-select">
-            <option value="" disabled selected>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5+">5+</option>
-          </select>
+        <p class="error-text" id="popupError" role="alert">Please enter your name and phone number.</p>
+        <div class="popup-actions">
+          <button type="submit" class="btn btn-primary" id="popupSubmitBtn">Join Medcourt Membership</button>
+          <button type="button" class="popup-decline" id="popupDecline">No thanks</button>
         </div>
-        <div class="form-group full">
-          <label>Healthcare interest <span style="font-weight:500;color:var(--muted);font-size:12px;">Optional</span></label>
-          <div class="chip-grid">
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Child Nutrition</label>
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Vitamins & Supplements</label>
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Dental Health</label>
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Eye & Vision</label>
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>Baby & Skin Care</label>
-            <label class="chip"><input type="checkbox"/><span class="chip-dot"></span>General Wellness</label>
-          </div>
-        </div>
-        <p class="error-text">Please enter your name and phone number.</p>
-        <button type="button" class="btn btn-primary" style="width:100%;">Get Voucher Code</button>
+        <small class="popup-privacy">Your details will only be used for Medcourt membership updates and benefits.</small>
       </form>
     </div>
-    <div class="success-state">
-      <h3>Details submitted</h3>
-      <p>Thank you. Your details have been saved and the Medcourt team will follow up with your opening ceremony information.</p>
-      <button type="button" class="btn btn-secondary" style="width:100%;">Close</button>
+    <div class="success-state" id="popupSuccess" aria-live="polite">
+      <h3>Thank you for joining</h3>
+      <p>Your membership request has been received. The Medcourt team will keep you updated on your member benefits.</p>
+      <button type="button" class="btn btn-secondary" id="popupSuccessClose" style="width:100%;">Continue to website</button>
     </div>
   </div>
-</template>
+</div>
 
 
 <div class="topbar" aria-hidden="true">
@@ -1861,7 +1928,115 @@
 </header>
 
 <main>
-  <section class="hero">
+
+
+  <section class="bundles" id="bundles" aria-labelledby="bundles-title">
+    <div class="container">
+      <div class="bundles-heading">
+        <div>
+          <div class="section-kicker">Ready, Set, September!</div>
+          <h2 class="section-title" id="bundles-title">Before the school bell rings, let’s get your <span>family ready.</span></h2>
+        </div>
+        <p class="bundles-summary">New term. New routine. Three simple bundles, everything sorted in one visit.</p>
+      </div>
+
+      <div class="bundle-grid">
+        <article class="bundle-card">
+          <figure class="bundle-image">
+            <span class="bundle-number">Package 1</span>
+            <img src="assets/images/back-to-school-hygiene-pack.png" alt="A selection of children's hygiene and personal care products" loading="lazy">
+          </figure>
+          <div class="bundle-body">
+            <p class="bundle-eyebrow">Ready, Set, School!</p>
+            <h3>Back to School Hygiene Pack</h3>
+            <p class="bundle-description">Everything your child needs to stay clean, fresh, and school-ready.</p>
+            <dl class="bundle-products">
+              <div><dt>2Sure hand sanitizers (2)</dt><dd>₦1,300</dd></div>
+              <div>
+                <dt>Huggies wipes <small class="bundle-option">Angel wipes option: ₦1,550; discounted pack total: ₦17,280</small></dt>
+                <dd>₦2,500</dd>
+              </div>
+              <div><dt>Macleans Milk Teeth toothpaste</dt><dd>₦700</dd></div>
+              <div><dt>Colgate toothbrush <small class="bundle-option">Choose 0–2 or 2–5 years</small></dt><dd>₦1,350</dd></div>
+              <div><dt>Savlon antiseptic</dt><dd>₦3,350</dd></div>
+              <div><dt>Hand towel</dt><dd>₦2,000</dd></div>
+              <div><dt>Johnson’s Baby Honey Soap (duo)</dt><dd>₦2,900</dd></div>
+              <div><dt>Pear’s baby oil</dt><dd>₦2,450</dd></div>
+              <div><dt>Doremi Kids Cologne</dt><dd>₦1,500</dd></div>
+              <div><dt>Storm Kido Spray (150 ml)</dt><dd>₦2,100</dd></div>
+            </dl>
+            <div class="bundle-footer">
+              <div class="bundle-total">
+                <span class="bundle-total-label">Bundle offer <small class="bundle-discount-badge">10% off</small></span>
+                <div class="bundle-price"><del class="bundle-original-price">₦20,150</del><strong class="bundle-discount-price">₦18,135</strong></div>
+              </div>
+              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Back%20to%20School%20Hygiene%20Pack%20at%20the%2010%25%20discount%20price%20of%20%E2%82%A618%2C135." target="_blank" rel="noopener">Order on WhatsApp →</a>
+              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bundle-card">
+          <figure class="bundle-image">
+            <span class="bundle-number">Package 2</span>
+            <img src="assets/images/family-wellness-essentials.png" alt="Vitamins, supplements, blood tonic, mouthwash and brain formula products" loading="lazy">
+          </figure>
+          <div class="bundle-body">
+            <p class="bundle-eyebrow">Everyday Wellness, Sorted</p>
+            <h3>Medcourt Family Wellness Essentials</h3>
+            <p class="bundle-description">Everyday wellness essentials to help your family stay ready for the new term.</p>
+            <dl class="bundle-products">
+              <div><dt>Nature’s Field Vitamin C</dt><dd>₦13,550</dd></div>
+              <div><dt>NF Zinc 100 mg</dt><dd>₦13,600</dd></div>
+              <div><dt>Astymin syrup</dt><dd>₦5,850</dd></div>
+              <div><dt>Feroglobin Plus</dt><dd>₦18,900</dd></div>
+              <div><dt>Corsodyl mouthwash</dt><dd>₦16,100</dd></div>
+              <div><dt>Efamol Brain Formula</dt><dd>₦31,650</dd></div>
+            </dl>
+            <div class="bundle-footer">
+              <div class="bundle-total">
+                <span class="bundle-total-label">Bundle offer <small class="bundle-discount-badge">10% off</small></span>
+                <div class="bundle-price"><del class="bundle-original-price">₦99,650</del><strong class="bundle-discount-price">₦89,685</strong></div>
+              </div>
+              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Medcourt%20Family%20Wellness%20Essentials%20Pack%20at%20the%2010%25%20discount%20price%20of%20%E2%82%A689%2C685." target="_blank" rel="noopener">Order on WhatsApp →</a>
+              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bundle-card">
+          <figure class="bundle-image">
+            <span class="bundle-number">Package 3</span>
+            <img src="assets/images/family-health-wellness-pack.png" alt="Blood pressure and glucose monitors, first aid box and weighing scale" loading="lazy">
+          </figure>
+          <div class="bundle-body">
+            <p class="bundle-eyebrow">Home Monitoring Made Simple</p>
+            <h3>Medcourt Family Health &amp; Wellness Pack</h3>
+            <p class="bundle-description">A practical home health monitoring solution for the whole family.</p>
+            <dl class="bundle-products">
+              <div><dt>Omron BP monitor (M3)</dt><dd>₦123,500</dd></div>
+              <div><dt>Accu-Chek glucose monitoring kit</dt><dd>₦26,150</dd></div>
+              <div><dt>A&amp;D digital thermometer</dt><dd>₦3,650</dd></div>
+              <div><dt>First aid box</dt><dd>₦26,600</dd></div>
+              <div><dt>Weighing scale</dt><dd>₦44,850</dd></div>
+            </dl>
+            <div class="bundle-footer">
+              <div class="bundle-total">
+                <span class="bundle-total-label">Bundle offer <small class="bundle-discount-badge">10% off</small></span>
+                <div class="bundle-price"><del class="bundle-original-price">₦224,750</del><strong class="bundle-discount-price">₦202,275</strong></div>
+              </div>
+              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Medcourt%20Family%20Health%20and%20Wellness%20Pack%20at%20the%2010%25%20discount%20price%20of%20%E2%82%A6202%2C275." target="_blank" rel="noopener">Order on WhatsApp →</a>
+              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="bundle-availability">Available while stocks last. Please confirm current availability with the Medcourt team when ordering.</p>
+    </div>
+  </section>
+
+    <section class="hero">
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
@@ -1913,103 +2088,6 @@
           </div>
         </aside>
       </div>
-    </div>
-  </section>
-
-  <section class="bundles" id="bundles" aria-labelledby="bundles-title">
-    <div class="container">
-      <div class="bundles-heading">
-        <div>
-          <div class="section-kicker">Ready, Set, September!</div>
-          <h2 class="section-title" id="bundles-title">Before the school bell rings, let’s get your <span>family ready.</span></h2>
-        </div>
-        <p class="bundles-summary">New term. New routine. Three simple bundles, everything sorted in one visit.</p>
-      </div>
-
-      <div class="bundle-grid">
-        <article class="bundle-card">
-          <figure class="bundle-image">
-            <span class="bundle-number">Package 1</span>
-            <img src="assets/images/back-to-school-hygiene-pack.png" alt="A selection of children's hygiene and personal care products" loading="lazy">
-          </figure>
-          <div class="bundle-body">
-            <p class="bundle-eyebrow">Ready, Set, School!</p>
-            <h3>Back to School Hygiene Pack</h3>
-            <p class="bundle-description">Everything your child needs to stay clean, fresh, and school-ready.</p>
-            <dl class="bundle-products">
-              <div><dt>2Sure hand sanitizers (2)</dt><dd>₦1,300</dd></div>
-              <div>
-                <dt>Huggies wipes <small class="bundle-option">Angel wipes option: ₦1,550; adjusted pack total: ₦19,200</small></dt>
-                <dd>₦2,500</dd>
-              </div>
-              <div><dt>Macleans Milk Teeth toothpaste</dt><dd>₦700</dd></div>
-              <div><dt>Colgate toothbrush <small class="bundle-option">Choose 0–2 or 2–5 years</small></dt><dd>₦1,350</dd></div>
-              <div><dt>Savlon antiseptic</dt><dd>₦3,350</dd></div>
-              <div><dt>Hand towel</dt><dd>₦2,000</dd></div>
-              <div><dt>Johnson’s Baby Honey Soap (duo)</dt><dd>₦2,900</dd></div>
-              <div><dt>Pear’s baby oil</dt><dd>₦2,450</dd></div>
-              <div><dt>Doremi Kids Cologne</dt><dd>₦1,500</dd></div>
-              <div><dt>Storm Kido Spray (150 ml)</dt><dd>₦2,100</dd></div>
-            </dl>
-            <div class="bundle-footer">
-              <div class="bundle-total"><span>Bundle total</span><strong>₦20,150</strong></div>
-              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Back%20to%20School%20Hygiene%20Pack%20priced%20at%20%E2%82%A620%2C150." target="_blank" rel="noopener">Order on WhatsApp →</a>
-              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="bundle-card">
-          <figure class="bundle-image">
-            <span class="bundle-number">Package 2</span>
-            <img src="assets/images/family-wellness-essentials.png" alt="Vitamins, supplements, blood tonic, mouthwash and brain formula products" loading="lazy">
-          </figure>
-          <div class="bundle-body">
-            <p class="bundle-eyebrow">Everyday Wellness, Sorted</p>
-            <h3>Medcourt Family Wellness Essentials</h3>
-            <p class="bundle-description">Everyday wellness essentials to help your family stay ready for the new term.</p>
-            <dl class="bundle-products">
-              <div><dt>Nature’s Field Vitamin C</dt><dd>₦13,550</dd></div>
-              <div><dt>NF Zinc 100 mg</dt><dd>₦13,600</dd></div>
-              <div><dt>Astymin syrup</dt><dd>₦5,850</dd></div>
-              <div><dt>Feroglobin Plus</dt><dd>₦18,900</dd></div>
-              <div><dt>Corsodyl mouthwash</dt><dd>₦16,100</dd></div>
-              <div><dt>Efamol Brain Formula</dt><dd>₦31,650</dd></div>
-            </dl>
-            <div class="bundle-footer">
-              <div class="bundle-total"><span>Bundle total</span><strong>₦99,650</strong></div>
-              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Medcourt%20Family%20Wellness%20Essentials%20Pack%20priced%20at%20%E2%82%A699%2C650." target="_blank" rel="noopener">Order on WhatsApp →</a>
-              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="bundle-card">
-          <figure class="bundle-image">
-            <span class="bundle-number">Package 3</span>
-            <img src="assets/images/family-health-wellness-pack.png" alt="Blood pressure and glucose monitors, first aid box and weighing scale" loading="lazy">
-          </figure>
-          <div class="bundle-body">
-            <p class="bundle-eyebrow">Home Monitoring Made Simple</p>
-            <h3>Medcourt Family Health &amp; Wellness Pack</h3>
-            <p class="bundle-description">A practical home health monitoring solution for the whole family.</p>
-            <dl class="bundle-products">
-              <div><dt>Omron BP monitor (M3)</dt><dd>₦123,500</dd></div>
-              <div><dt>Accu-Chek glucose monitoring kit</dt><dd>₦26,150</dd></div>
-              <div><dt>A&amp;D digital thermometer</dt><dd>₦3,650</dd></div>
-              <div><dt>First aid box</dt><dd>₦26,600</dd></div>
-              <div><dt>Weighing scale</dt><dd>₦44,850</dd></div>
-            </dl>
-            <div class="bundle-footer">
-              <div class="bundle-total"><span>Bundle total</span><strong>₦224,750</strong></div>
-              <a class="btn bundle-order" href="https://wa.me/2348165005208?text=Hi%20Medcourt%20Pharmacy%2C%20I%20would%20like%20to%20order%20the%20Medcourt%20Family%20Health%20and%20Wellness%20Pack%20priced%20at%20%E2%82%A6224%2C750." target="_blank" rel="noopener">Order on WhatsApp →</a>
-              <p class="bundle-photo-note">Bundle contents follow the list above; product appearance may vary.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <p class="bundle-availability">Available while stocks last. Please confirm current availability with the Medcourt team when ordering.</p>
     </div>
   </section>
 
@@ -2307,121 +2385,108 @@
       });
   });
 
-      // Popup: show on load, handle close and submit
-      (function(){
-        var overlay = document.getElementById('popupOverlay');
-        var popupClose = document.getElementById('popupClose');
-        var popupSuccessClose = document.getElementById('popupSuccessClose');
-        var popupForm = document.getElementById('popupForm');
-        var popupError = document.getElementById('popupError');
-        var popupContent = document.getElementById('popupContent');
-        var popupSuccess = document.getElementById('popupSuccess');
+  // Membership popup: show four seconds after page load, allow dismissal, and save sign-ups.
+  (function(){
+    var overlay = document.getElementById('popupOverlay');
+    var popupClose = document.getElementById('popupClose');
+    var popupDecline = document.getElementById('popupDecline');
+    var popupSuccessClose = document.getElementById('popupSuccessClose');
+    var popupForm = document.getElementById('popupForm');
+    var popupError = document.getElementById('popupError');
+    var popupContent = document.getElementById('popupContent');
+    var popupSuccess = document.getElementById('popupSuccess');
+    var lastFocusedElement = null;
 
-        function showPopup(){ if(overlay) overlay.classList.add('active'); }
-        function hidePopup(){ if(overlay) overlay.classList.remove('active'); }
+    function showPopup(){
+      if (!overlay) return;
+      lastFocusedElement = document.activeElement;
+      overlay.classList.add('active');
+      document.body.classList.add('popup-open');
+      window.setTimeout(function(){
+        var nameInput = document.getElementById('popup-name');
+        if (nameInput) nameInput.focus();
+      }, 300);
+    }
 
-        document.addEventListener('DOMContentLoaded', function(){ setTimeout(showPopup, 700); });
+    function hidePopup(){
+      if (!overlay) return;
+      overlay.classList.remove('active');
+      document.body.classList.remove('popup-open');
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus();
+    }
 
-        if (popupClose) popupClose.addEventListener('click', hidePopup);
-        if (popupSuccessClose) popupSuccessClose.addEventListener('click', hidePopup);
+    document.addEventListener('DOMContentLoaded', function(){
+      window.setTimeout(showPopup, 4000);
+    });
 
-        if (popupForm) popupForm.addEventListener('submit', function(e){
-          e.preventDefault();
-          var submitBtn = document.getElementById('popupSubmitBtn');
-          var originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Get Voucher Code';
+    if (popupClose) popupClose.addEventListener('click', hidePopup);
+    if (popupDecline) popupDecline.addEventListener('click', hidePopup);
+    if (popupSuccessClose) popupSuccessClose.addEventListener('click', hidePopup);
 
-          var name = document.getElementById('popup-name').value.trim();
-          var email = document.getElementById('popup-email').value.trim();
-          var phone = document.getElementById('popup-phone').value.trim();
-          var phoneDigits = phone.replace(/\D/g, '');
-          var children = (document.getElementById('popup-numChildren') && document.getElementById('popup-numChildren').value) ? document.getElementById('popup-numChildren').value : '';
-          var selectedChips = Array.from(document.querySelectorAll('#popupChipGrid .chip.on')).map(function(c){ return c.textContent.trim(); });
-          var interest = selectedChips.join(', ');
+    if (overlay) {
+      overlay.addEventListener('click', function(event){
+        if (event.target === overlay) hidePopup();
+      });
+    }
 
-          function restoreButton(){
-            if (!submitBtn) return;
-            submitBtn.disabled = false;
-            submitBtn.removeAttribute('aria-busy');
-            submitBtn.classList.remove('loading');
-            submitBtn.innerHTML = originalBtnHTML;
-          }
+    document.addEventListener('keydown', function(event){
+      if (event.key === 'Escape' && overlay && overlay.classList.contains('active')) hidePopup();
+    });
 
-          if (!name || !phone) {
-            if (popupError) { popupError.textContent = 'Please enter your name and phone number.'; popupError.style.display = 'block'; }
-            restoreButton();
-            return;
-          }
+    if (popupForm) popupForm.addEventListener('submit', function(event){
+      event.preventDefault();
+      var submitBtn = document.getElementById('popupSubmitBtn');
+      var name = document.getElementById('popup-name').value.trim();
+      var phone = document.getElementById('popup-phone').value.trim();
+      var phoneDigits = phone.replace(/\D/g, '');
 
-          // ensure phone number contains exactly 11 digits
-          if (phoneDigits.length !== 11) {
-            if (popupError) { popupError.textContent = 'Please enter a valid 11-digit phone number.'; popupError.style.display = 'block'; }
-            restoreButton();
-            return;
-          }
-          // healthcare interest is optional for popup
-          if (popupError) popupError.style.display = 'none';
+      if (!name || !phone) {
+        popupError.textContent = 'Please enter your name and phone number.';
+        popupError.style.display = 'block';
+        return;
+      }
 
-          // Build the WhatsApp URL upfront
-          var adminNumber = '2348165005208';
-          var waText = 'Hi Medcourt pharmacy, my name is ' + (name || '') + '. I just registered and would like my voucher code.';
-          var waUrl = 'https://wa.me/' + adminNumber + '?text=' + encodeURIComponent(waText);
+      if (phoneDigits.length !== 11) {
+        popupError.textContent = 'Please enter a valid 11-digit phone number.';
+        popupError.style.display = 'block';
+        return;
+      }
 
-          // show loading spinner on the submit button
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.setAttribute('aria-busy', 'true');
-            submitBtn.classList.add('loading');
-            submitBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span>Sending...';
-          }
+      popupError.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+      submitBtn.classList.add('loading');
+      submitBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span>Joining...';
 
-          var data = {
-            name: name || '',
-            email: email || '',
-            phone: phoneDigits,
-            children: children || '',
-            ageRange: '',
-            interest: interest || '',
-            service: 'OGRA',
-            message: 'OGRA reservation',
-            source: 'Popup'
-          };
+      var data = {
+        name: name,
+        phone: phoneDigits,
+        email: '',
+        children: '',
+        ageRange: '',
+        interest: '',
+        service: 'Medcourt Membership',
+        message: 'Membership sign-up',
+        source: 'Membership Popup'
+      };
 
-          // Always redirect to WhatsApp after save, whether it succeeds or fails.
-          // Even on a network/CORS error the sheet entry was already saved server-side,
-          // so we should never block the user. Using window.location.href (same-tab)
-          // instead of window.open() — same-tab navigation works on iOS Safari from
-          // async callbacks and correctly triggers the WhatsApp deep-link without
-          // showing the "Download WhatsApp" page that a new-tab approach causes.
-          function goToWhatsApp() {
-            try { hidePopup(); } catch(e){}
-            window.location.href = waUrl;
-          }
-
-          saveLead(data)
-            .then(function(){ goToWhatsApp(); })
-            .catch(function(){ goToWhatsApp(); });
+      saveLead(data)
+        .then(function(result){
+          if (result && result.success === false) throw new Error(result.error || 'Submission failed');
+          popupForm.reset();
+          popupContent.style.display = 'none';
+          popupSuccess.style.display = 'block';
+        })
+        .catch(function(){
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-busy');
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Join Medcourt Membership';
+          popupError.textContent = 'Something went wrong. Please try again.';
+          popupError.style.display = 'block';
         });
-      })();
-
-      // Popup chip toggles: attach handlers to each chip for reliable interaction
-      (function(){
-        var chips = Array.from(document.querySelectorAll('#popupChipGrid .chip'));
-        chips.forEach(function(chip){
-          chip.setAttribute('tabindex', '0');
-          chip.addEventListener('click', function(e){
-            e.preventDefault();
-            chip.classList.toggle('on');
-            var cb = chip.querySelector('input[type=checkbox]');
-            if (cb) cb.checked = chip.classList.contains('on');
-          });
-          chip.addEventListener('keydown', function(e){
-            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
-              e.preventDefault();
-              chip.click();
-            }
-          });
-        });
-      })();
+    });
+  })();
 
 </script>
 </body>
