@@ -25,5 +25,6 @@ Deployment instructions
 
 Notes
 - The script returns a JSON object of the form `{ success: true, voucher: 'ABC123' }`. The frontend does NOT display the voucher; it redirects the user to WhatsApp so staff can complete voucher delivery.
+- Submissions whose service is `Medcourt Membership` are saved without generating a voucher; their `Voucher` cell is left blank.
 - Deploying as `Anyone, even anonymous` is necessary so event attendees can submit without signing in. This makes the endpoint public; consider adding monitoring or rate limits later.
 - If you want me to deploy the Apps Script on your behalf, you'll need to provide access to a Google account or deploy credentials (not recommended). Instead, I can guide you through the deploy steps interactively.

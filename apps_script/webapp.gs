@@ -1,4 +1,5 @@
-// Apps Script web app: receive registrations, generate 6-char voucher, append to sheet
+// Apps Script web app: receive registrations and append them to the sheet.
+// Voucher-based campaigns receive a 6-character code; membership sign-ups do not.
 // Replace SPREADSHEET_ID with your Google Sheet ID before deploying.
 
 var SPREADSHEET_ID = '1N_lROhfqKdJyAZGHfs8b65Vg-rv6Suo6fZnxmsgnLeM';
@@ -58,7 +59,8 @@ function doPost(e) {
     }
     var voucherColIndex = voucherCol + 1; // 1-based
 
-    var voucher = generateUniqueVoucher(sheet, voucherColIndex);
+    var isMembershipSignup = payload.service === 'Medcourt Membership';
+    var voucher = isMembershipSignup ? '' : generateUniqueVoucher(sheet, voucherColIndex);
 
     // build a row matching the header order so values land in correct columns
     var rowValues = [];
@@ -84,7 +86,7 @@ function doPost(e) {
     sheet.appendRow(rowValues);
 
     output.success = true;
-    output.voucher = voucher;
+    if (voucher) output.voucher = voucher;
   } catch (err) {
     output.success = false;
     output.error = err.message;

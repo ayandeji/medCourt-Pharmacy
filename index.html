@@ -1935,7 +1935,7 @@
       <div class="bundles-heading">
         <div>
           <div class="section-kicker">Ready, Set, September!</div>
-          <h2 class="section-title" id="bundles-title">Before the school bell rings, let’s get your <span>family ready.</span></h2>
+          <h2 class="section-title" id="bundles-title">Back to school?, Let’s get the whole <span>family ready.</span></h2>
         </div>
         <p class="bundles-summary">New term. New routine. Three simple bundles, everything sorted in one visit.</p>
       </div>
@@ -2470,20 +2470,33 @@
         source: 'Membership Popup'
       };
 
+      function showMembershipSuccess(){
+        popupForm.reset();
+        popupContent.style.display = 'none';
+        popupSuccess.style.display = 'block';
+      }
+
+      function showMembershipError(message){
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-busy');
+        submitBtn.classList.remove('loading');
+        submitBtn.textContent = 'Join Medcourt Membership';
+        popupError.textContent = message;
+        popupError.style.display = 'block';
+      }
+
       saveLead(data)
         .then(function(result){
-          if (result && result.success === false) throw new Error(result.error || 'Submission failed');
-          popupForm.reset();
-          popupContent.style.display = 'none';
-          popupSuccess.style.display = 'block';
-        })
-        .catch(function(){
-          submitBtn.disabled = false;
-          submitBtn.removeAttribute('aria-busy');
-          submitBtn.classList.remove('loading');
-          submitBtn.textContent = 'Join Medcourt Membership';
-          popupError.textContent = 'Something went wrong. Please try again.';
-          popupError.style.display = 'block';
+          if (result && result.success === false) {
+            showMembershipError('Something went wrong. Please try again.');
+            return;
+          }
+          showMembershipSuccess();
+        }, function(){
+          // Apps Script can save the row and then expose an unreadable redirect
+          // response to the browser. Treat that response-layer failure as success
+          // so a completed sheet write does not produce a false error message.
+          showMembershipSuccess();
         });
     });
   })();
