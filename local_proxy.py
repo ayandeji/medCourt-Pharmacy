@@ -7,7 +7,7 @@ import ssl
 import traceback
 
 # Target Apps Script URL (matches index.html WEBAPP_URL)
-WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyvRkY3Cn_gHGEc4VXm506hF5E5qcuAa7KVkxZFi0ITftlqlFSCNrRjRI327DegovLEzw/exec'
+WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxhiW5OWq54daHlUM9ukOL_cMcZVoFMseit5fTGa0ud_iBqzBxDMrKVBFSV6Bg6YnAQJw/exec'
 
 class ProxyHandler(BaseHTTPRequestHandler):
     def _set_cors(self):

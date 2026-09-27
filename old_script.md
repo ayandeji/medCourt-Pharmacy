@@ -1,13 +1,8 @@
-// Apps Script web app: receive registrations and append them to the sheet.
-// Voucher-based campaigns receive a 6-character code; membership sign-ups do not.
+<!-- // Apps Script web app: receive registrations, generate 6-char voucher, append to sheet
 // Replace SPREADSHEET_ID with your Google Sheet ID before deploying.
 
 var SPREADSHEET_ID = '1N_lROhfqKdJyAZGHfs8b65Vg-rv6Suo6fZnxmsgnLeM';
 var SHEET_NAME = 'Registrations';
-var CUSTOMER_SHEET_NAME = 'Customer Capture';
-var CUSTOMER_HEADERS = ['Timestamp', 'Branch', 'Customer Name', 'Phone', 'Product', 'Refill Customer', 'Entry ID'];
-var ALLOWED_BRANCHES = ['Ikotun', 'Ogudu', 'Alpha Mall', 'Ojodu'];
-var MAX_DASHBOARD_ROWS = 5000;
 
 function doPost(e) {
   var output = { success: false };
@@ -18,18 +13,6 @@ function doPost(e) {
     } else if (e.parameter) {
       // fallback to form-encoded
       payload = e.parameter;
-    }
-
-    if (payload.action === 'capture_customer') {
-      return jsonOutput(captureCustomer(payload));
-    }
-
-    if (payload.action === 'validate_capture_access') {
-      return jsonOutput(validateCaptureAccess(payload));
-    }
-
-    if (payload.action === 'dashboard_data') {
-      return jsonOutput(getDashboardData(payload));
     }
 
     if (!payload.phone) {
@@ -75,8 +58,7 @@ function doPost(e) {
     }
     var voucherColIndex = voucherCol + 1; // 1-based
 
-    var isMembershipSignup = payload.service === 'Medcourt Membership';
-    var voucher = isMembershipSignup ? '' : generateUniqueVoucher(sheet, voucherColIndex);
+    var voucher = generateUniqueVoucher(sheet, voucherColIndex);
 
     // build a row matching the header order so values land in correct columns
     var rowValues = [];
@@ -102,114 +84,12 @@ function doPost(e) {
     sheet.appendRow(rowValues);
 
     output.success = true;
-    if (voucher) output.voucher = voucher;
+    output.voucher = voucher;
   } catch (err) {
     output.success = false;
     output.error = err.message;
   }
   return jsonOutput(output);
-}
-
-function captureCustomer(payload) {
-  var access = validateCaptureAccess(payload);
-  if (!access.success) return access;
-
-  var branch = cleanText(payload.branch);
-  var name = cleanText(payload.name);
-  var phone = cleanText(payload.customerPhone).replace(/\D/g, '');
-  var product = cleanText(payload.product);
-  var isRefill = cleanText(payload.isRefill);
-
-  if (ALLOWED_BRANCHES.indexOf(branch) === -1) {
-    return { success: false, error: 'invalid_branch' };
-  }
-  if (!name) {
-    return { success: false, error: 'name_required' };
-  }
-  if (phone.length !== 11) {
-    return { success: false, error: 'invalid_phone' };
-  }
-  if (isRefill !== 'Yes' && isRefill !== 'No') {
-    return { success: false, error: 'refill_status_required' };
-  }
-
-  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  var sheet = getOrCreateSheet(ss, CUSTOMER_SHEET_NAME, CUSTOMER_HEADERS);
-  var entryId = Utilities.getUuid();
-  sheet.appendRow([new Date(), branch, name, phone, product, isRefill, entryId]);
-
-  return { success: true, entryId: entryId };
-}
-
-function validateCaptureAccess(payload) {
-  var configuredCode = PropertiesService.getScriptProperties().getProperty('CUSTOMER_CAPTURE_ACCESS_CODE');
-  if (!configuredCode) {
-    return { success: false, error: 'capture_access_not_configured' };
-  }
-  if (String(payload.accessCode || '') !== configuredCode) {
-    return { success: false, error: 'unauthorized' };
-  }
-  return { success: true };
-}
-
-function getDashboardData(payload) {
-  var configuredCode = PropertiesService.getScriptProperties().getProperty('DASHBOARD_ACCESS_CODE');
-  if (!configuredCode) {
-    return { success: false, error: 'dashboard_not_configured' };
-  }
-  if (String(payload.accessCode || '') !== configuredCode) {
-    return { success: false, error: 'unauthorized' };
-  }
-
-  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  var sheet = ss.getSheetByName(CUSTOMER_SHEET_NAME);
-  if (!sheet || sheet.getLastRow() < 2) {
-    return { success: true, rows: [], truncated: false };
-  }
-
-  var lastRow = sheet.getLastRow();
-  var firstDataRow = Math.max(2, lastRow - MAX_DASHBOARD_ROWS + 1);
-  var rowCount = lastRow - firstDataRow + 1;
-  var values = sheet.getRange(firstDataRow, 1, rowCount, CUSTOMER_HEADERS.length).getValues();
-  var rows = [];
-
-  for (var i = values.length - 1; i >= 0; i--) {
-    var row = values[i];
-    var timestamp = row[0];
-    rows.push({
-      timestamp: timestamp instanceof Date ? timestamp.toISOString() : String(timestamp || ''),
-      branch: String(row[1] || ''),
-      name: String(row[2] || ''),
-      phone: String(row[3] || ''),
-      product: String(row[4] || ''),
-      isRefill: String(row[5] || ''),
-      entryId: String(row[6] || '')
-    });
-  }
-
-  return {
-    success: true,
-    rows: rows,
-    truncated: lastRow - 1 > MAX_DASHBOARD_ROWS,
-    generatedAt: new Date().toISOString()
-  };
-}
-
-function getOrCreateSheet(ss, sheetName, headers) {
-  var sheet = ss.getSheetByName(sheetName);
-  if (!sheet) {
-    sheet = ss.insertSheet(sheetName);
-    sheet.appendRow(headers);
-    sheet.setFrozenRows(1);
-  } else if (sheet.getLastRow() === 0) {
-    sheet.appendRow(headers);
-    sheet.setFrozenRows(1);
-  }
-  return sheet;
-}
-
-function cleanText(value) {
-  return String(value || '').trim();
 }
 
 function jsonOutput(obj) {
@@ -250,4 +130,4 @@ function generateVoucher(len) {
   var out = '';
   for (var i = 0; i < len; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
   return out;
-}
+} -->

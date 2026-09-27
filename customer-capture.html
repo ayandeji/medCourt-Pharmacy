@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Customer Capture | Medcourt Pharmacy</title>
+  <link href="assets/fonts/fonts.css" rel="stylesheet">
+  <style>
+    :root {
+      --cyan: #00a9e8;
+      --cyan-dark: #007eae;
+      --cyan-soft: #e7f9ff;
+      --pink: #ee2f7b;
+      --pink-dark: #c91461;
+      --ink: #102030;
+      --muted: #647582;
+      --line: #d9e8ed;
+      --soft: #f4fafc;
+      --white: #fff;
+      --success: #147a52;
+      --danger: #b42318;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: "Plus Jakarta Sans", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 6% 12%, rgba(0,169,232,.13), transparent 28%),
+        radial-gradient(circle at 94% 82%, rgba(238,47,123,.09), transparent 28%),
+        var(--soft);
+    }
+    button, input { font: inherit; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+
+    .topbar { height: 7px; background: linear-gradient(90deg, var(--cyan), var(--pink)); }
+    .shell { width: min(1100px, calc(100% - 36px)); margin: 0 auto; }
+    header {
+      background: rgba(255,255,255,.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand img { display: block; height: 50px; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 10px; }
+    .nav-link {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 15px;
+      border-radius: 8px;
+      color: var(--cyan-dark);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    main { padding: 58px 0 72px; }
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .76fr) minmax(500px, 1.24fr);
+      gap: 44px;
+      align-items: start;
+    }
+    .intro { padding-top: 24px; }
+    .eyebrow {
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: "Outfit", Arial, sans-serif;
+      font-size: clamp(2.6rem, 5vw, 4.6rem);
+      line-height: .98;
+      margin-bottom: 20px;
+    }
+    h1 span { color: var(--cyan); }
+    .intro-copy { color: var(--muted); font-size: 16px; line-height: 1.75; max-width: 450px; }
+    .steps { display: grid; gap: 12px; margin-top: 30px; }
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 750;
+    }
+    .step span {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      background: var(--cyan-soft);
+      color: var(--cyan-dark);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .capture-card {
+      background: var(--white);
+      border: 1px solid rgba(0,126,174,.18);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 28px 70px rgba(16,32,48,.12);
+    }
+    .access-card {
+      width: min(470px, 100%);
+      margin: 54px auto 0;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--pink);
+      border-radius: 14px;
+      background: var(--white);
+      box-shadow: 0 28px 70px rgba(16,32,48,.12);
+    }
+    .access-badge {
+      display: inline-flex;
+      min-height: 29px;
+      align-items: center;
+      padding: 0 10px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: var(--cyan-soft);
+      color: var(--cyan-dark);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .access-card h1 {
+      font-family: "Outfit", Arial, sans-serif;
+      font-size: 2.1rem;
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+    .access-card > p { color: var(--muted); font-size: 14px; line-height: 1.65; margin-bottom: 22px; }
+    .access-form { display: grid; gap: 12px; }
+    .access-error {
+      display: none;
+      padding: 11px 12px;
+      border: 1px solid #f7c7c3;
+      border-radius: 8px;
+      background: #fff1f0;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.5;
+    }
+    .access-error.visible { display: block; }
+    .access-submit {
+      min-height: 49px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--pink);
+      color: var(--white);
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .access-submit:disabled { opacity: .65; cursor: wait; }
+    .card-heading { margin-bottom: 24px; }
+    .card-heading h2 { font-family: "Outfit", Arial, sans-serif; font-size: 1.9rem; margin-bottom: 6px; }
+    .card-heading p { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .field { display: grid; gap: 8px; }
+    .field + .field, fieldset + .field, .field + fieldset { margin-top: 18px; }
+    label, legend { color: var(--ink); font-size: 13px; font-weight: 850; }
+    .optional { color: var(--muted); font-weight: 600; }
+    input[type="text"], input[type="tel"], input[type="password"] {
+      width: 100%;
+      min-height: 50px;
+      padding: 0 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 9px;
+      background: #fbfdfe;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(0,169,232,.12); background: var(--white); }
+    fieldset { border: 0; }
+    legend { margin-bottom: 9px; }
+
+    .branch-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+    .branch-option {
+      min-height: 46px;
+      border: 1.5px solid var(--line);
+      border-radius: 9px;
+      background: var(--white);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 850;
+      transition: .18s ease;
+    }
+    .branch-option:hover { border-color: var(--cyan); color: var(--cyan-dark); }
+    .branch-option.selected {
+      border-color: var(--cyan);
+      background: var(--cyan-soft);
+      color: var(--cyan-dark);
+      box-shadow: inset 0 0 0 1px var(--cyan);
+    }
+
+    .radio-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+    .radio-option { position: relative; }
+    .radio-option input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio-option span {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--line);
+      border-radius: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 850;
+    }
+    .radio-option input:checked + span {
+      border-color: var(--pink);
+      background: rgba(238,47,123,.08);
+      color: var(--pink-dark);
+      box-shadow: inset 0 0 0 1px var(--pink);
+    }
+    .radio-option input:focus-visible + span { outline: 3px solid rgba(0,169,232,.24); outline-offset: 2px; }
+
+    .status {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.5;
+    }
+    .status.error { display: block; color: var(--danger); background: #fff1f0; border: 1px solid #f7c7c3; }
+    .status.success { display: block; color: var(--success); background: #eaf8f2; border: 1px solid #b9e4d3; }
+    .status.warning { display: block; color: #805500; background: #fff8e7; border: 1px solid #f1d99c; }
+
+    .submit-button {
+      width: 100%;
+      min-height: 54px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--pink);
+      color: var(--white);
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 28px rgba(238,47,123,.22);
+    }
+    .submit-button:hover { background: var(--pink-dark); }
+    .submit-button:disabled { opacity: .65; cursor: wait; }
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      vertical-align: -2px;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .privacy { margin-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.55; text-align: center; }
+
+    @media (max-width: 850px) {
+      main { padding-top: 38px; }
+      .page-grid { grid-template-columns: 1fr; gap: 28px; }
+      .intro { padding-top: 0; }
+      .intro-copy { max-width: 660px; }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 24px, 1100px); }
+      .nav { min-height: 68px; }
+      .brand img { height: 43px; }
+      .nav-link { padding: 0 11px; font-size: 12px; }
+      main { padding: 30px 0 48px; }
+      h1 { font-size: 2.7rem; }
+      .steps { grid-template-columns: 1fr; }
+      .capture-card { padding: 22px 17px; border-radius: 12px; }
+      .access-card { margin-top: 22px; padding: 24px 18px; }
+      .branch-options { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"></div>
+  <header>
+    <div class="shell nav">
+      <a class="brand" href="index.html" aria-label="Medcourt Pharmacy home"><img src="logo.jpeg" alt="Medcourt Pharmacy"></a>
+      <nav class="nav-links" aria-label="Internal tools">
+        <a class="nav-link" href="dashboard.html">View Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="access-card" id="captureAccess" aria-labelledby="captureAccessTitle">
+      <span class="access-badge">Authorised staff only</span>
+      <h1 id="captureAccessTitle">Customer capture access</h1>
+      <p>Enter the staff access code to open the customer-capture form.</p>
+      <form class="access-form" id="captureAccessForm">
+        <label for="captureAccessCode">Access code</label>
+        <input type="password" id="captureAccessCode" autocomplete="current-password" required>
+        <div class="access-error" id="captureAccessError" role="alert"></div>
+        <button class="access-submit" id="captureAccessButton" type="submit">Open customer capture</button>
+      </form>
+    </section>
+
+    <div class="shell page-grid" id="captureWorkspace" hidden>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Medcourt Staff Tool</p>
+        <h1 id="page-title">Customer <span>capture.</span></h1>
+        <p class="intro-copy">Record customer visits consistently across all four branches. Select the branch, enter the customer’s details, and save the visit to the shared Google Sheet.</p>
+        <div class="steps" aria-label="How to use this form">
+          <div class="step"><span>1</span>Select the branch</div>
+          <div class="step"><span>2</span>Enter customer details</div>
+          <div class="step"><span>3</span>Save the record</div>
+        </div>
+      </section>
+
+      <section class="capture-card" aria-labelledby="form-title">
+        <div class="card-heading">
+          <h2 id="form-title">New customer record</h2>
+          <p>Required fields are marked with an asterisk.</p>
+        </div>
+
+        <form id="customerForm" novalidate>
+          <fieldset>
+            <legend>Branch *</legend>
+            <div class="branch-options" id="branchOptions">
+              <button class="branch-option" type="button" data-branch="Ikotun" aria-pressed="false">Ikotun</button>
+              <button class="branch-option" type="button" data-branch="Ogudu" aria-pressed="false">Ogudu</button>
+              <button class="branch-option" type="button" data-branch="Alpha Mall" aria-pressed="false">Alpha Mall</button>
+              <button class="branch-option" type="button" data-branch="Ojodu" aria-pressed="false">Ojodu</button>
+            </div>
+            <input type="hidden" id="branch" name="branch">
+          </fieldset>
+
+          <div class="field">
+            <label for="customerName">Customer name *</label>
+            <input type="text" id="customerName" name="name" placeholder="Enter full name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="customerPhone">Phone number *</label>
+            <input type="tel" id="customerPhone" name="phone" placeholder="0800 000 0000" autocomplete="tel" inputmode="numeric" required>
+          </div>
+
+          <div class="field">
+            <label for="product">Product <span class="optional">(optional)</span></label>
+            <input type="text" id="product" name="product" placeholder="Product purchased or requested">
+          </div>
+
+          <fieldset>
+            <legend>Is this a refill customer? *</legend>
+            <div class="radio-options">
+              <label class="radio-option"><input type="radio" name="isRefill" value="Yes"><span>Yes</span></label>
+              <label class="radio-option"><input type="radio" name="isRefill" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+
+          <div class="status" id="formStatus" role="status" aria-live="polite"></div>
+          <button class="submit-button" id="submitButton" type="submit">Save customer record</button>
+          <p class="privacy">Customer details are stored in Medcourt’s internal Google Sheet and should only be accessed by authorised staff.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    var PROD_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxhiW5OWq54daHlUM9ukOL_cMcZVoFMseit5fTGa0ud_iBqzBxDMrKVBFSV6Bg6YnAQJw/exec';
+    var LOCAL_PROXY_URL = 'http://localhost:8001';
+    var WEBAPP_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:')
+      ? LOCAL_PROXY_URL
+      : '/api/webapp';
+
+    var form = document.getElementById('customerForm');
+    var statusEl = document.getElementById('formStatus');
+    var submitButton = document.getElementById('submitButton');
+    var branchInput = document.getElementById('branch');
+    var captureAccess = document.getElementById('captureAccess');
+    var captureWorkspace = document.getElementById('captureWorkspace');
+    var captureAccessForm = document.getElementById('captureAccessForm');
+    var captureAccessButton = document.getElementById('captureAccessButton');
+    var captureAccessError = document.getElementById('captureAccessError');
+    var activeCaptureAccessCode = '';
+
+    document.querySelectorAll('.branch-option').forEach(function(button){
+      button.addEventListener('click', function(){
+        document.querySelectorAll('.branch-option').forEach(function(option){
+          option.classList.remove('selected');
+          option.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('selected');
+        button.setAttribute('aria-pressed', 'true');
+        branchInput.value = button.dataset.branch;
+        hideStatus();
+      });
+    });
+
+    function showStatus(type, message){
+      statusEl.className = 'status ' + type;
+      statusEl.textContent = message;
+    }
+
+    function hideStatus(){
+      statusEl.className = 'status';
+      statusEl.textContent = '';
+    }
+
+    function sendRequest(payload){
+      return fetch(WEBAPP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(response){
+        return response.text().then(function(text){
+          try { return JSON.parse(text); }
+          catch (error) { throw new Error('unreadable_response'); }
+        });
+      });
+    }
+
+    function unlockCapture(accessCode){
+      activeCaptureAccessCode = accessCode;
+      sessionStorage.setItem('medcourtCaptureAccess', accessCode);
+      captureAccess.hidden = true;
+      captureWorkspace.hidden = false;
+      document.getElementById('customerName').focus();
+    }
+
+    function lockCapture(message){
+      activeCaptureAccessCode = '';
+      sessionStorage.removeItem('medcourtCaptureAccess');
+      captureWorkspace.hidden = true;
+      captureAccess.hidden = false;
+      captureAccessError.textContent = message || '';
+      captureAccessError.classList.toggle('visible', Boolean(message));
+      document.getElementById('captureAccessCode').focus();
+    }
+
+    function validateCaptureAccess(accessCode){
+      captureAccessError.classList.remove('visible');
+      captureAccessButton.disabled = true;
+      captureAccessButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Checking...';
+
+      return sendRequest({ action: 'validate_capture_access', accessCode: accessCode })
+        .then(function(result){
+          if (!result || result.success !== true) {
+            var error = result && result.error ? result.error : 'access_failed';
+            throw new Error(error);
+          }
+          unlockCapture(accessCode);
+        })
+        .catch(function(error){
+          var message = 'Unable to verify access. Please try again.';
+          if (error.message === 'unauthorized') message = 'The staff access code is incorrect.';
+          if (error.message === 'capture_access_not_configured') message = 'The customer-capture access code has not been configured in Apps Script.';
+          lockCapture(message);
+        })
+        .finally(function(){
+          captureAccessButton.disabled = false;
+          captureAccessButton.textContent = 'Open customer capture';
+        });
+    }
+
+    captureAccessForm.addEventListener('submit', function(event){
+      event.preventDefault();
+      var accessCode = document.getElementById('captureAccessCode').value;
+      if (accessCode) validateCaptureAccess(accessCode);
+    });
+
+    form.addEventListener('submit', function(event){
+      event.preventDefault();
+      hideStatus();
+
+      var selectedRefill = form.querySelector('input[name="isRefill"]:checked');
+      var name = document.getElementById('customerName').value.trim();
+      var rawPhone = document.getElementById('customerPhone').value.trim();
+      var phone = rawPhone.replace(/\D/g, '');
+
+      if (!branchInput.value) {
+        showStatus('error', 'Please select the branch.');
+        return;
+      }
+      if (!name) {
+        showStatus('error', 'Please enter the customer’s name.');
+        document.getElementById('customerName').focus();
+        return;
+      }
+      if (phone.length !== 11) {
+        showStatus('error', 'Please enter a valid 11-digit phone number.');
+        document.getElementById('customerPhone').focus();
+        return;
+      }
+      if (!selectedRefill) {
+        showStatus('error', 'Please select whether this is a refill customer.');
+        return;
+      }
+
+      var payload = {
+        action: 'capture_customer',
+        accessCode: activeCaptureAccessCode,
+        branch: branchInput.value,
+        name: name,
+        customerPhone: phone,
+        product: document.getElementById('product').value.trim(),
+        isRefill: selectedRefill.value
+      };
+      var savedBranch = branchInput.value;
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Saving record...';
+
+      function showSaved(){
+        form.reset();
+        branchInput.value = savedBranch;
+        showStatus('success', name + ' was saved successfully for ' + savedBranch + '.');
+        document.getElementById('customerName').focus();
+      }
+
+      sendRequest(payload)
+        .then(function(result){
+          if (result && result.success === false) {
+            if (result.error === 'unauthorized' || result.error === 'capture_access_not_configured') {
+              lockCapture(result.error === 'unauthorized' ? 'Your staff access has expired or is incorrect.' : 'The customer-capture access code has not been configured in Apps Script.');
+              return;
+            }
+            showStatus('error', 'The record could not be saved. Please check the details and try again.');
+            return;
+          }
+          showSaved();
+        }, function(){
+          // Apps Script can save the row before its redirected response becomes
+          // unreadable to the browser. Avoid prompting staff to submit it twice.
+          showSaved();
+        })
+        .finally(function(){
+          submitButton.disabled = false;
+          submitButton.textContent = 'Save customer record';
+        });
+    });
+
+    var rememberedCaptureCode = sessionStorage.getItem('medcourtCaptureAccess');
+    if (rememberedCaptureCode) validateCaptureAccess(rememberedCaptureCode);
+  </script>
+</body>
+</html>
